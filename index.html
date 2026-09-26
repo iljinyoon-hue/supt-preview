@@ -1,10 +1,4 @@
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="세방울산부두운영(주) — 울산항 6·7·8부두 벌크 터미널 운영사 홈페이지 시안">
-<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<!doctype html><html><head><meta charset=utf8><meta name="robots" content="noindex,nofollow"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>세방울산부두운영</title>
 <!-- 파비콘 (시안 6 확정: SUPT 한 줄 + 그린 바) - SVG 우선, 구형 브라우저 ICO, iOS 홈 화면 180px, 안드로이드 192/512px -->
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -549,6 +543,31 @@ body.en .map-links .gmap{order:-1}
 .bmap-list button.is-active .mk{background:var(--green)}
 .bmap-list .ttl{display:block;font-weight:700;font-size:0.9375rem;color:var(--ink);line-height:1.4}
 .bmap-list .sub{display:block;grid-column:2;font-size:0.75rem;color:var(--ink-3);line-height:1.5;margin-top:2px}
+/* ---------- 터미널 시뮬레이터 런처 (선석 제원 제목 줄 우측) ---------- */
+.head-row{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap}
+.sim-launch{position:relative;display:inline-flex;align-items:center;gap:14px;padding:7px 18px 7px 7px;border-radius:999px;background:var(--dark);color:#fff;overflow:hidden;isolation:isolate;box-shadow:0 8px 22px rgba(31,55,67,.22),inset 0 0 0 1px rgba(1,171,170,.35);transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+.sim-launch::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 30%,rgba(1,171,170,.30) 46%,rgba(255,255,255,.18) 50%,transparent 64%);transform:translateX(-110%);animation:slSweep 4.2s cubic-bezier(.4,0,.2,1) 1.2s infinite}
+.sim-launch:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(31,55,67,.28),0 0 0 3px rgba(1,171,170,.22),inset 0 0 0 1px rgba(1,171,170,.6)}
+.sim-launch:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.sl-ico{position:relative;width:48px;height:48px;flex:none;display:block}
+.sl-ico svg{position:relative;z-index:1;display:block;width:48px;height:48px}
+.sl-ping{position:absolute;inset:0;border-radius:50%;border:2px solid var(--green);opacity:0;animation:slPing 2.4s cubic-bezier(.2,.6,.3,1) infinite}
+.sl-ping.d2{animation-delay:1.2s}
+.sl-orbit{animation:slDash 6s linear infinite}
+.sl-txt{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.sl-txt b{font-weight:700;font-size:1rem;letter-spacing:-.01em;white-space:nowrap}
+.sl-txt small{font-size:0.75rem;color:var(--on-dark-2);font-weight:300;white-space:nowrap}
+.sl-go{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;flex:none;transition:transform .25s}
+.sim-launch:hover .sl-go{transform:translateX(3px)}
+@keyframes slPing{0%{transform:scale(1);opacity:.75}80%,100%{transform:scale(1.55);opacity:0}}
+@keyframes slSweep{0%{transform:translateX(-110%)}45%,100%{transform:translateX(110%)}}
+@keyframes slDash{to{stroke-dashoffset:-50}}
+/* 주메뉴 항목의 점멸 점 */
+.gnb a.gnb-sim,.mnav a.gnb-sim{display:inline-flex;align-items:center;gap:8px}
+.mnav a.gnb-sim{display:flex}
+.gnb-sim::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(1,171,170,.6);animation:slDot 1.8s ease-out infinite;flex:none}
+@keyframes slDot{0%{box-shadow:0 0 0 0 rgba(1,171,170,.6)}70%,100%{box-shadow:0 0 0 7px rgba(1,171,170,0)}}
+@media (max-width:640px){.sim-launch{padding:6px 14px 6px 6px;gap:11px}.sl-ico,.sl-ico svg{width:42px;height:42px}.sl-txt b{font-size:0.9375rem}.sl-go{width:26px;height:26px}}
 .bmap-remark{margin:0 0 34px;font-size:0.8125rem;color:var(--ink-4);text-wrap:pretty}
 .bmap-remark::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:8px;vertical-align:2px}
 @media (max-width:980px){.bmap{grid-template-columns:1fr}.bmap-panel{border-left:0;border-top:1px solid var(--line)}.bmap-list{display:grid;grid-template-columns:1fr 1fr}.bmap-list li + li{border-top:0}.bmap-list li{border-top:1px solid var(--line)}.bmap-list li:nth-child(odd){border-right:1px solid var(--line)}}
@@ -833,6 +852,7 @@ body.en .ko-only{display:none!important}
       <a href="#/terminal" data-page="terminal" data-en="Terminal">터미널 안내</a>
       <a href="#/business" data-page="business" data-en="Services">사업 안내</a>
       <a href="#/support" data-page="support" data-en="Customer Support">고객지원</a>
+      <a href="terminal-simulator.html" class="gnb-sim" data-en="Terminal Simulator">터미널 시뮬레이터</a>
     </nav>
     <div class="hdr-right">
       <div class="lang" role="group" aria-label="언어 선택" data-en-aria-label="Language">
@@ -847,6 +867,7 @@ body.en .ko-only{display:none!important}
     <a href="#/terminal" data-page="terminal" data-en="Terminal">터미널 안내</a>
     <a href="#/business" data-page="business" data-en="Services">사업 안내</a>
     <a href="#/support" data-page="support" data-en="Customer Support">고객지원</a>
+    <a href="terminal-simulator.html" class="gnb-sim" data-en="Terminal Simulator">터미널 시뮬레이터</a>
     <div class="mnav-foot">
       <div class="lang" role="group" aria-label="언어 선택" data-en-aria-label="Language">
         <button type="button" data-lang="ko" aria-pressed="true">KOR</button>
@@ -1166,7 +1187,32 @@ body.en .ko-only{display:none!important}
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Berth Specifications</span>
-        <h2 data-en="Berth specifications">선석 제원</h2>
+        <div class="head-row">
+          <h2 data-en="Berth specifications">선석 제원</h2>
+          <a class="sim-launch" href="terminal-simulator.html">
+            <span class="sl-ico" aria-hidden="true">
+              <i class="sl-ping"></i><i class="sl-ping d2"></i>
+              <svg viewBox="0 0 48 48" width="48" height="48">
+                <defs><linearGradient id="slSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A4B59"/><stop offset="1" stop-color="#16303A"/></linearGradient></defs>
+                <circle cx="24" cy="24" r="23" fill="url(#slSea)"/>
+                <path d="M9 27.5 24 20l15 7.5-15 7.5Z" fill="#01ABAA"/>
+                <path d="M9 27.5 24 35v4L9 31.5Z" fill="#0B6463"/>
+                <path d="M24 35 39 27.5v4L24 39Z" fill="#0E8483"/>
+                <path d="M15 25.5l3-1.5 3 1.5-3 1.5Z M19.5 23.2l3-1.5 3 1.5-3 1.5Z M22 27l3-1.5 3 1.5-3 1.5Z" fill="#E6F7F7"/>
+                <path d="M28.5 36.2 38.6 31l3.2.7-.6 1.3-10.3 5.3-2.3-.4Z" fill="#E6E7E9"/>
+                <path d="M30 34.9l2.2-1.1v-2.2l-2.2 1.1Z" fill="#fff"/>
+                <ellipse class="sl-orbit" cx="24" cy="27" rx="19.5" ry="8.5" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1" stroke-dasharray="2.2 2.8"/>
+                <circle r="2.1" fill="#fff"><animateMotion dur="4.8s" repeatCount="indefinite" path="M4.5 27a19.5 8.5 0 1 0 39 0a19.5 8.5 0 1 0-39 0"/></circle>
+                <text x="24" y="13.2" text-anchor="middle" font-size="7.2" font-weight="700" fill="#fff" font-family="Arial,sans-serif" letter-spacing=".4">3D</text>
+              </svg>
+            </span>
+            <span class="sl-txt">
+              <b><span class="ko-only">터미널 시뮬레이터</span><span class="en-only">Terminal Simulator</span></b>
+              <small><span class="ko-only">3D로 둘러보고 · 선박 크기 비교</span><span class="en-only">3D view · vessel fit check</span></small>
+            </span>
+            <span class="sl-go" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10h11M11 5.5 15.5 10 11 14.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a>
+        </div>
         <p class="lead ko-only">6부두 4·5번, 7부두 1번, 8부두 1번의 4개 선석(안벽 연장 810m)을 운영합니다.</p>
         <p class="lead en-only">Four berths - <span class="nb">Berth 6 No. 4·5</span>, <span class="nb">Berth 7 No. 1</span> and <span class="nb">Berth 8 No. 1</span> - with <span class="nb">810 m of quay</span>.</p>
       </div>
@@ -2346,7 +2392,8 @@ body.en .ko-only{display:none!important}
       msg.style.color = '';
       /* 웹 호스팅(넷리파이 등)에서는 실제 전송: Netlify Forms가 같은 주소로 POST된 폼 데이터를 접수하고 알림 메일을 보냄.
          시안 미리보기(claude.ai)·로컬 파일(file://)에서는 전송하지 않고 안내만 표시 */
-      var canSend = /^https?:/.test(location.protocol) && !EMBED_BLOCKED;
+      /* 실제 전송은 넷리파이(…netlify.app) 또는 정식 도메인(supt.co.kr)에서만 - 깃허브 페이지 등 임시 미리보기 호스팅에서는 안내만 */
+      var canSend = /^https?:/.test(location.protocol) && !EMBED_BLOCKED && /(\.netlify\.app|supt\.co\.kr)$/i.test(location.hostname);
       if (!canSend){
         msg.textContent = en
           ? 'Received (prototype - submissions are delivered once the site is hosted).'
@@ -2375,4 +2422,5 @@ body.en .ko-only{display:none!important}
 })();
 </script>
 
+<script>try{if(matchMedia("(prefers-reduced-motion: reduce)").matches){document.querySelectorAll(".sim-launch animateMotion").forEach(function(a){a.remove();});}}catch(e){}</script>
 </body></html>
