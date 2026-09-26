@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name="robots" content="noindex,nofollow"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="ko"><head><meta charset=utf8><meta name="robots" content="noindex,nofollow"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>세방울산부두운영</title>
 <!-- 파비콘 (시안 6 확정: SUPT 한 줄 + 그린 바) - SVG 우선, 구형 브라우저 ICO, iOS 홈 화면 180px, 안드로이드 192/512px -->
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -8,6 +8,8 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" sizes="180x180">
 <meta name="theme-color" content="#1F3743">
 
+<meta name="description" content="세방울산부두운영 — 울산항 6·7·8부두 터미널 안내, 하역 서비스 및 선박 시뮬레이터.">
+</head><body>
 <style>
 /* ==========================================================
    세방울산부두운영(주) 홈페이지 시안 v1
@@ -887,8 +889,8 @@ body.en .ko-only{display:none!important}
 <section class="page" id="p-home">
   <div class="hero" id="hero">
     <div class="hero-slides" aria-hidden="true">
-      <div class="slide is-active"><img src="assets/hero.jpg" alt="" width="1920" height="1438" fetchpriority="high"></div>
-      <div class="slide"><img src="assets/terminal.jpg" alt="" width="1920" height="1438" loading="lazy"></div>
+      <div class="slide is-active"><img src="assets/hero.jpg" alt="" width="1920" height="1438" fetchpriority="high" decoding="async"></div>
+      <div class="slide"><img src="assets/terminal.jpg" alt="" width="1920" height="1438" loading="lazy" decoding="async"></div>
     </div>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="wrap">
@@ -950,7 +952,7 @@ body.en .ko-only{display:none!important}
 
   <!-- 핵심 수치 (스크롤 진입 시 카운트업) -->
   <section class="stats-band" id="home-stats">
-    <img class="bg" src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438" loading="lazy">
+    <img class="bg" src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438" loading="lazy" decoding="async">
     <div class="wrap">
       <div class="sec-head" style="margin-bottom:8px">
         <span class="eyebrow">Ulsan Port Berths 6·7·8</span>
@@ -995,7 +997,7 @@ body.en .ko-only{display:none!important}
      ====================================================== -->
 <section class="page" id="p-about" hidden>
   <div class="page-head photo">
-    <img class="bg about-photo" src="assets/about.jpg" alt="" aria-hidden="true" width="1920" height="900">
+    <img class="bg about-photo" src="assets/about.jpg" alt="" aria-hidden="true" width="1920" height="900" decoding="async" loading="lazy">
     <div class="wrap">
       <span class="eyebrow">About Us</span>
       <h1 data-en="About Us">회사소개</h1>
@@ -1022,7 +1024,7 @@ body.en .ko-only{display:none!important}
         <h2 data-en="CEO's Message">인사말</h2>
       </div>
       <div class="greet">
-        <figure class="figure portrait"><img src="assets/ceo.jpg" alt="세방울산부두운영(주) 대표이사 박규보" data-en-alt="Kyu-Bo Park, CEO of Sebang Ulsan Port Terminal Co., Ltd." width="960" height="1152" loading="lazy"><figcaption data-en="CEO Kyu-Bo Park">대표이사 박규보</figcaption></figure>
+        <figure class="figure portrait"><img src="assets/ceo.jpg" alt="세방울산부두운영(주) 대표이사 박규보" data-en-alt="Kyu-Bo Park, CEO of Sebang Ulsan Port Terminal Co., Ltd." width="960" height="1152" loading="lazy" decoding="async"><figcaption data-en="CEO Kyu-Bo Park">대표이사 박규보</figcaption></figure>
         <div class="txt">
           <p class="big ko-only">세방울산부두운영(주)가 울산항에서 새로운 출발을 합니다.</p>
           <p class="big en-only">Sebang Ulsan Port Terminal begins a new chapter at Ulsan Port.</p>
@@ -1166,7 +1168,7 @@ body.en .ko-only{display:none!important}
      ====================================================== -->
 <section class="page" id="p-terminal" hidden>
   <div class="page-head photo">
-    <img class="bg" src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438">
+    <img class="bg" src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438" decoding="async" loading="lazy">
     <div class="wrap">
       <span class="eyebrow">Terminal</span>
       <h1 data-en="Terminal Overview">터미널 안내</h1>
@@ -1219,7 +1221,7 @@ body.en .ko-only{display:none!important}
       <!-- 인터랙티브 선석 배치도: 항공 이미지 + 벡터 선석 레이어(SVG) + 제원 패널. 선석 데이터는 스크립트의 BERTHS 참조 -->
       <div class="bmap" id="bmap">
         <div class="bmap-stage" id="bmapStage" data-view="3d">
-          <img class="bmap-img" src="assets/map_base.jpg" alt="울산항 6·7·8부두 선석 배치 항공지도 - 6부두 4·5번, 7부두 1번, 8부두 1번 선석" data-en-alt="Aerial map of Ulsan Port Berths 6, 7 and 8 - Berth 6 No. 4·5, Berth 7 No. 1, Berth 8 No. 1" width="1200" height="866" loading="lazy">
+          <img class="bmap-img" src="assets/map_base.jpg" alt="울산항 6·7·8부두 선석 배치 항공지도 - 6부두 4·5번, 7부두 1번, 8부두 1번 선석" data-en-alt="Aerial map of Ulsan Port Berths 6, 7 and 8 - Berth 6 No. 4·5, Berth 7 No. 1, Berth 8 No. 1" width="1200" height="866" loading="lazy" decoding="async">
           <div class="bmap-2d">
           <svg class="bmap-svg" viewBox="0 0 1200 866" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <defs>
@@ -1257,7 +1259,7 @@ body.en .ko-only{display:none!important}
           <div class="bmap-north" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l5 16-5-3-5 3z" fill="currentColor"/></svg><span>N</span></div>
           <!-- 조감(3D) 보기: 드론 사진 위에 원근에 맞춘 선석 면·안벽선·입체 라벨 (좌표는 사진 1920×1438 기준, 상단 52px 크롭) -->
           <div class="bmap-3d" id="bmap3d">
-            <img src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438" loading="lazy">
+            <img src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438" loading="lazy" decoding="async">
             <svg class="bmap-svg" viewBox="0 52 1920 1386" preserveAspectRatio="none" aria-hidden="true" focusable="false">
               <defs>
                 <mask id="bmapMask3d"><rect x="0" y="52" width="1920" height="1386" fill="#fff"/><polygon id="bmapHole3d" points="" fill="#000"/></mask>
@@ -1358,7 +1360,7 @@ body.en .ko-only{display:none!important}
      ====================================================== -->
 <section class="page" id="p-business" hidden>
   <div class="page-head photo">
-    <img class="bg" src="assets/business.jpg" alt="" aria-hidden="true" width="1920" height="659">
+    <img class="bg" src="assets/business.jpg" alt="" aria-hidden="true" width="1920" height="659" decoding="async" loading="lazy">
     <div class="wrap">
       <span class="eyebrow">Services</span>
       <h1 data-en="Services">사업 안내</h1>
@@ -1466,7 +1468,7 @@ body.en .ko-only{display:none!important}
      ====================================================== -->
 <section class="page" id="p-support" hidden>
   <div class="page-head photo">
-    <img class="bg support-photo" src="assets/support.jpg" alt="" aria-hidden="true" width="1920" height="900">
+    <img class="bg support-photo" src="assets/support.jpg" alt="" aria-hidden="true" width="1920" height="900" decoding="async" loading="lazy">
     <div class="wrap">
       <span class="eyebrow">Customer Support</span>
       <h1 data-en="Customer Support">고객지원</h1>
@@ -1668,22 +1670,22 @@ body.en .ko-only{display:none!important}
     <span class="plbl" data-en="Related sites">관계기관</span>
     <div class="ptrack" id="ptrack">
       <ul>
-        <li><a href="https://www.sebanggroup.com/" target="_blank" rel="noopener" title="세방그룹" data-en-title="Sebang Group"><img src="assets/logos/sebang-group.png" alt="세방그룹" data-en-alt="Sebang Group" height="24" width="108"></a></li>
-        <li><a href="https://www.sebang.com" target="_blank" rel="noopener" title="세방㈜" data-en-title="Sebang Co., Ltd."><img src="assets/logos/sebang.png" alt="세방㈜" data-en-alt="Sebang Co., Ltd." height="50" width="126"></a></li>
-        <li><a href="https://www.upa.or.kr" target="_blank" rel="noopener" title="울산항만공사" data-en-title="Ulsan Port Authority"><img src="assets/logos/upa.png" alt="울산항만공사" data-en-alt="Ulsan Port Authority" height="112" width="424"></a></li>
-        <li><a href="https://www.mof.go.kr" target="_blank" rel="noopener" title="해양수산부" data-en-title="Ministry of Oceans and Fisheries"><img src="assets/logos/mof.png" alt="해양수산부" data-en-alt="Ministry of Oceans and Fisheries" height="206" width="701"></a></li>
-        <li><a href="https://ulsan.mof.go.kr/ko/index.do" target="_blank" rel="noopener" title="울산지방해양수산청" data-en-title="Ulsan Regional Office of Oceans and Fisheries"><img src="assets/logos/ulsan-mof.png" alt="울산지방해양수산청" data-en-alt="Ulsan Regional Office of Oceans and Fisheries" height="177" width="964"></a></li>
-        <li><a href="https://www.customs.go.kr/ulsan/main.do" target="_blank" rel="noopener" title="울산세관" data-en-title="Ulsan Customs"><img src="assets/logos/customs.png" alt="울산세관" data-en-alt="Ulsan Customs" height="48" width="151"></a></li>
-        <li><a href="https://www.kptiedu.kr/user/Main.do" target="_blank" rel="noopener" title="항만안전교육포털" data-en-title="Port Safety Education Portal"><img src="assets/logos/kptiedu.png" alt="항만안전교육 포털" data-en-alt="Port Safety Education Portal" height="19" width="152" class="tiny"></a></li>
+        <li><a href="https://www.sebanggroup.com/" target="_blank" rel="noopener" title="세방그룹" data-en-title="Sebang Group"><img src="assets/logos/sebang-group.png" alt="세방그룹" data-en-alt="Sebang Group" height="24" width="108" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.sebang.com" target="_blank" rel="noopener" title="세방㈜" data-en-title="Sebang Co., Ltd."><img src="assets/logos/sebang.png" alt="세방㈜" data-en-alt="Sebang Co., Ltd." height="50" width="126" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.upa.or.kr" target="_blank" rel="noopener" title="울산항만공사" data-en-title="Ulsan Port Authority"><img src="assets/logos/upa.png" alt="울산항만공사" data-en-alt="Ulsan Port Authority" height="112" width="424" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.mof.go.kr" target="_blank" rel="noopener" title="해양수산부" data-en-title="Ministry of Oceans and Fisheries"><img src="assets/logos/mof.png" alt="해양수산부" data-en-alt="Ministry of Oceans and Fisheries" height="206" width="701" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://ulsan.mof.go.kr/ko/index.do" target="_blank" rel="noopener" title="울산지방해양수산청" data-en-title="Ulsan Regional Office of Oceans and Fisheries"><img src="assets/logos/ulsan-mof.png" alt="울산지방해양수산청" data-en-alt="Ulsan Regional Office of Oceans and Fisheries" height="177" width="964" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.customs.go.kr/ulsan/main.do" target="_blank" rel="noopener" title="울산세관" data-en-title="Ulsan Customs"><img src="assets/logos/customs.png" alt="울산세관" data-en-alt="Ulsan Customs" height="48" width="151" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.kptiedu.kr/user/Main.do" target="_blank" rel="noopener" title="항만안전교육포털" data-en-title="Port Safety Education Portal"><img src="assets/logos/kptiedu.png" alt="항만안전교육 포털" data-en-alt="Port Safety Education Portal" height="19" width="152" class="tiny" decoding="async" loading="lazy"></a></li>
       </ul>
       <ul aria-hidden="true">
-        <li><a href="https://www.sebanggroup.com/" target="_blank" rel="noopener" title="세방그룹" data-en-title="Sebang Group"><img src="assets/logos/sebang-group.png" alt="세방그룹" data-en-alt="Sebang Group" height="24" width="108"></a></li>
-        <li><a href="https://www.sebang.com" target="_blank" rel="noopener" title="세방㈜" data-en-title="Sebang Co., Ltd."><img src="assets/logos/sebang.png" alt="세방㈜" data-en-alt="Sebang Co., Ltd." height="50" width="126"></a></li>
-        <li><a href="https://www.upa.or.kr" target="_blank" rel="noopener" title="울산항만공사" data-en-title="Ulsan Port Authority"><img src="assets/logos/upa.png" alt="울산항만공사" data-en-alt="Ulsan Port Authority" height="112" width="424"></a></li>
-        <li><a href="https://www.mof.go.kr" target="_blank" rel="noopener" title="해양수산부" data-en-title="Ministry of Oceans and Fisheries"><img src="assets/logos/mof.png" alt="해양수산부" data-en-alt="Ministry of Oceans and Fisheries" height="206" width="701"></a></li>
-        <li><a href="https://ulsan.mof.go.kr/ko/index.do" target="_blank" rel="noopener" title="울산지방해양수산청" data-en-title="Ulsan Regional Office of Oceans and Fisheries"><img src="assets/logos/ulsan-mof.png" alt="울산지방해양수산청" data-en-alt="Ulsan Regional Office of Oceans and Fisheries" height="177" width="964"></a></li>
-        <li><a href="https://www.customs.go.kr/ulsan/main.do" target="_blank" rel="noopener" title="울산세관" data-en-title="Ulsan Customs"><img src="assets/logos/customs.png" alt="울산세관" data-en-alt="Ulsan Customs" height="48" width="151"></a></li>
-        <li><a href="https://www.kptiedu.kr/user/Main.do" target="_blank" rel="noopener" title="항만안전교육포털" data-en-title="Port Safety Education Portal"><img src="assets/logos/kptiedu.png" alt="항만안전교육 포털" data-en-alt="Port Safety Education Portal" height="19" width="152" class="tiny"></a></li>
+        <li><a href="https://www.sebanggroup.com/" target="_blank" rel="noopener" title="세방그룹" data-en-title="Sebang Group"><img src="assets/logos/sebang-group.png" alt="세방그룹" data-en-alt="Sebang Group" height="24" width="108" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.sebang.com" target="_blank" rel="noopener" title="세방㈜" data-en-title="Sebang Co., Ltd."><img src="assets/logos/sebang.png" alt="세방㈜" data-en-alt="Sebang Co., Ltd." height="50" width="126" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.upa.or.kr" target="_blank" rel="noopener" title="울산항만공사" data-en-title="Ulsan Port Authority"><img src="assets/logos/upa.png" alt="울산항만공사" data-en-alt="Ulsan Port Authority" height="112" width="424" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.mof.go.kr" target="_blank" rel="noopener" title="해양수산부" data-en-title="Ministry of Oceans and Fisheries"><img src="assets/logos/mof.png" alt="해양수산부" data-en-alt="Ministry of Oceans and Fisheries" height="206" width="701" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://ulsan.mof.go.kr/ko/index.do" target="_blank" rel="noopener" title="울산지방해양수산청" data-en-title="Ulsan Regional Office of Oceans and Fisheries"><img src="assets/logos/ulsan-mof.png" alt="울산지방해양수산청" data-en-alt="Ulsan Regional Office of Oceans and Fisheries" height="177" width="964" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.customs.go.kr/ulsan/main.do" target="_blank" rel="noopener" title="울산세관" data-en-title="Ulsan Customs"><img src="assets/logos/customs.png" alt="울산세관" data-en-alt="Ulsan Customs" height="48" width="151" decoding="async" loading="lazy"></a></li>
+        <li><a href="https://www.kptiedu.kr/user/Main.do" target="_blank" rel="noopener" title="항만안전교육포털" data-en-title="Port Safety Education Portal"><img src="assets/logos/kptiedu.png" alt="항만안전교육 포털" data-en-alt="Port Safety Education Portal" height="19" width="152" class="tiny" decoding="async" loading="lazy"></a></li>
       </ul>
     </div>
   </div>
@@ -1988,7 +1990,8 @@ body.en .ko-only{display:none!important}
     var burger = document.getElementById('burger');
     if (burger) burger.setAttribute('aria-expanded','false');
     if (r.page === 'notice'){
-      renderNoticeDetail(decodeURIComponent(r.sec));
+      var noticeId; try { noticeId = decodeURIComponent(r.sec); } catch(e) { noticeId = r.sec; }
+      renderNoticeDetail(noticeId);
       window.scrollTo(0, 0);
     } else if (r.sec){
       var target = document.getElementById(r.page + '-' + r.sec);
@@ -2061,7 +2064,13 @@ body.en .ko-only{display:none!important}
     });
     /* ESC 키로 닫기 */
     document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape' && body.classList.contains('nav-open')) setNav(false);
+      if (e.key === 'Escape' && body.classList.contains('nav-open')) { setNav(false); burger.focus(); }
+      if(e.key==='Tab' && body.classList.contains('nav-open')){
+        var items=Array.from(document.querySelectorAll('.site-header a[href],.site-header button')).filter(function(x){return x.getClientRects().length && !x.disabled;});
+        var first=items[0],last=items[items.length-1];
+        if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus();}
+        else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+      }
     });
     /* 메뉴 안의 링크를 누르면 닫기 (같은 페이지 앵커 포함) */
     document.querySelector('.mnav').addEventListener('click', function(e){
@@ -2091,9 +2100,10 @@ body.en .ko-only{display:none!important}
       slides[cur].classList.remove('is-active'); dots[cur].classList.remove('on');
       cur = (n + slides.length) % slides.length;
       slides[cur].classList.add('is-active'); dots[cur].classList.add('on');
+      for(var j=0;j<dots.length;j++) dots[j].setAttribute('aria-pressed',String(j===cur));
     }
     function startHero(){
-      if (heroTimer || reduce) return;
+      if (heroTimer || reduce || userPaused) return;
       heroTimer = setInterval(function(){
         if (document.hidden || document.getElementById('p-home').hidden) return;
         goSlide(cur + 1);
@@ -2105,6 +2115,15 @@ body.en .ko-only{display:none!important}
         clearInterval(heroTimer); heroTimer = null; startHero();
       });
     }
+    for(var j=0;j<dots.length;j++) dots[j].setAttribute('aria-pressed',String(j===cur));
+    var pause = document.createElement('button');
+    pause.type='button'; pause.className='hero-pause'; pause.textContent='Ⅱ';
+    pause.setAttribute('aria-label','슬라이드 자동 전환 정지');
+    pause.setAttribute('data-en-aria-label','Pause slideshow'); pause.setAttribute('aria-pressed','false');
+    var userPaused=false;
+    pause.onclick=function(){userPaused=!userPaused;pause.textContent=userPaused?'▶':'Ⅱ';pause.setAttribute('aria-pressed',String(userPaused));clearInterval(heroTimer);heroTimer=null;if(!userPaused)startHero();};
+    hero.querySelector('.hero-dots').appendChild(pause);
+    document.addEventListener('visibilitychange',function(){clearInterval(heroTimer);heroTimer=null;if(!document.hidden&&!userPaused)startHero();});
     startHero();
   }
 
@@ -2376,6 +2395,7 @@ body.en .ko-only{display:none!important}
   if (form){
     form.addEventListener('submit', function(e){
       e.preventDefault();
+      if (!form.reportValidity()) return;
       var msg = document.getElementById('formMsg');
       var en = body.classList.contains('en');
       var required = form.querySelectorAll('[required]');
@@ -2393,20 +2413,21 @@ body.en .ko-only{display:none!important}
       /* 웹 호스팅(넷리파이 등)에서는 실제 전송: Netlify Forms가 같은 주소로 POST된 폼 데이터를 접수하고 알림 메일을 보냄.
          시안 미리보기(claude.ai)·로컬 파일(file://)에서는 전송하지 않고 안내만 표시 */
       /* 실제 전송은 넷리파이(…netlify.app) 또는 정식 도메인(supt.co.kr)에서만 - 깃허브 페이지 등 임시 미리보기 호스팅에서는 안내만 */
-      var canSend = /^https?:/.test(location.protocol) && !EMBED_BLOCKED && /(\.netlify\.app|supt\.co\.kr)$/i.test(location.hostname);
+      var canSend = /^https?:/.test(location.protocol) && !EMBED_BLOCKED && /(\.netlify\.app|^supt\.co\.kr|\.supt\.co\.kr)$/i.test(location.hostname);
       if (!canSend){
         msg.textContent = en
-          ? 'Received (prototype - submissions are delivered once the site is hosted).'
-          : '문의가 접수되었습니다. (시안: 실제 전송은 웹 게시 후 sales@supt.co.kr 로 연동)';
-        form.reset();
+          ? 'This preview does not send enquiries. Your entries are retained. Please email sales@supt.co.kr.'
+          : '현재 미리보기에서는 문의가 전송되지 않습니다. 입력 내용은 유지됩니다. sales@supt.co.kr로 문의해 주세요.';
         return;
       }
       var btn = form.querySelector('button[type="submit"]');
       if (btn) btn.disabled = true;
       msg.textContent = en ? 'Sending…' : '전송 중…';
+      var controller = new AbortController();
+      var sendTimeout = setTimeout(function(){controller.abort();},15000);
       var data = new URLSearchParams(new FormData(form));
       if (!data.get('form-name')) data.set('form-name', form.getAttribute('name') || 'contact');
-      fetch(form.getAttribute('action') || '/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data.toString() })
+      fetch(form.getAttribute('action') || '/', { method: 'POST', signal: controller.signal, headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data.toString() })
         .then(function(r){
           if (!r.ok) throw new Error('HTTP ' + r.status);
           msg.textContent = en ? 'Thank you. Your enquiry has been sent - we will reply within one business day.' : '문의가 접수되었습니다. 영업일 기준 1일 이내에 회신드리겠습니다.';
@@ -2416,11 +2437,18 @@ body.en .ko-only{display:none!important}
           msg.style.color = '#B3261E';
           msg.textContent = en ? 'Sending failed. Please email sales@supt.co.kr.' : '전송에 실패했습니다. sales@supt.co.kr 로 보내주시기 바랍니다.';
         })
-        .then(function(){ if (btn) btn.disabled = false; });
+        .then(function(){ clearTimeout(sendTimeout); if (btn) btn.disabled = false; });
     });
   }
 })();
 </script>
 
 <script>try{if(matchMedia("(prefers-reduced-motion: reduce)").matches){document.querySelectorAll(".sim-launch animateMotion").forEach(function(a){a.remove();});}}catch(e){}</script>
-</body></html>
+<style>
+/* v3.20 interaction and accessibility */
+:focus-visible{outline:3px solid #01abaa;outline-offset:5px}
+.hero-dots{align-items:center}
+.hero-dots .hero-pause{flex:none;width:30px;height:30px;border:1px solid #ffffff70;border-radius:50%;background:#1f374399;color:white;font-size:12px;cursor:pointer}
+@media(max-width:680px){input,select,textarea{font-size:16px!important}.subnav{scrollbar-width:thin}.lang button{min-height:40px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style></body></html>
