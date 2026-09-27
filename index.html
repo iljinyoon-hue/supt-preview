@@ -289,14 +289,15 @@ body.en .hero h1{font-size:clamp(1.625rem,3.2vw,2.75rem)}
 @keyframes rise{to{opacity:1;transform:none}}
 /* 슬라이드 인디케이터 + 스크롤 유도 */
 .hero-foot{position:absolute;left:0;right:0;bottom:0;z-index:2}
-.hero-foot .wrap{display:flex;align-items:flex-end;justify-content:space-between;padding-block:22px;gap:20px}
+.hero-foot .wrap{position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding-block:22px;gap:20px}
 .hero-dots{display:flex;gap:10px}
 .hero-dots button{width:56px;height:14px;display:flex;align-items:center;padding:0;cursor:pointer}
 .hero-dots button i{display:block;width:100%;height:2px;background:rgba(255,255,255,.3);position:relative;overflow:hidden}
 .hero-dots button i::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}
 .hero-dots button.on i::after{animation:fill 7s linear forwards}
 @keyframes fill{to{transform:scaleX(1)}}
-.hero-cue{display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.7);font-family:var(--font-latin);font-size:0.6875rem;letter-spacing:.2em;text-transform:uppercase}
+.hero-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.7);font-family:var(--font-latin);font-size:0.6875rem;letter-spacing:.2em;text-transform:uppercase}
+.hero-cue span{margin-right:-.2em}
 .hero-cue i{display:block;width:1px;height:44px;background:rgba(255,255,255,.25);position:relative;overflow:hidden}
 .hero-cue i::after{content:"";position:absolute;left:0;top:-44px;width:1px;height:44px;background:#fff;animation:cue 2s cubic-bezier(.6,0,.4,1) infinite}
 @keyframes cue{to{top:44px}}
@@ -2063,11 +2064,12 @@ body.en .ko-only{display:none!important}
     }
     for(var j=0;j<dots.length;j++) dots[j].setAttribute('aria-pressed',String(j===cur));
     var pause = document.createElement('button');
-    pause.type='button'; pause.className='hero-pause'; pause.textContent='Ⅱ';
+    var IC_P='<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><rect x="2.5" y="2" width="2.4" height="8" rx=".6" fill="currentColor"/><rect x="7.1" y="2" width="2.4" height="8" rx=".6" fill="currentColor"/></svg>', IC_Y='<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M4 2.2v7.6a.5.5 0 0 0 .76.43l6.1-3.8a.5.5 0 0 0 0-.86L4.76 1.77A.5.5 0 0 0 4 2.2Z" fill="currentColor"/></svg>';
+    pause.type='button'; pause.className='hero-pause'; pause.innerHTML=IC_P;
     pause.setAttribute('aria-label','슬라이드 자동 전환 정지');
     pause.setAttribute('data-en-aria-label','Pause slideshow'); pause.setAttribute('aria-pressed','false');
     var userPaused=false;
-    pause.onclick=function(){userPaused=!userPaused;pause.textContent=userPaused?'▶':'Ⅱ';pause.setAttribute('aria-pressed',String(userPaused));clearInterval(heroTimer);heroTimer=null;if(!userPaused)startHero();};
+    pause.onclick=function(){userPaused=!userPaused;pause.innerHTML=userPaused?IC_Y:IC_P;pause.setAttribute('aria-pressed',String(userPaused));clearInterval(heroTimer);heroTimer=null;if(!userPaused)startHero();};
     hero.querySelector('.hero-dots').appendChild(pause);
     document.addEventListener('visibilitychange',function(){clearInterval(heroTimer);heroTimer=null;if(!document.hidden&&!userPaused)startHero();});
     startHero();
@@ -2393,7 +2395,8 @@ body.en .ko-only{display:none!important}
 /* v3.20 interaction and accessibility */
 :focus-visible{outline:3px solid #01abaa;outline-offset:5px}
 .hero-dots{align-items:center}
-.hero-dots .hero-pause{flex:none;width:30px;height:30px;border:1px solid #ffffff70;border-radius:50%;background:#1f374399;color:white;font-size:12px;cursor:pointer}
+.hero-dots .hero-pause{flex:none;width:30px;height:30px;padding:0;display:grid;place-items:center;line-height:0;border:1px solid #ffffff70;border-radius:50%;background:#1f374399;color:white;cursor:pointer}
+.hero-dots .hero-pause svg{display:block;width:12px;height:12px}
 @media(max-width:680px){input,select,textarea{font-size:16px!important}.subnav{scrollbar-width:thin}.lang button{min-height:40px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style></body></html>
