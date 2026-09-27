@@ -1,7 +1,22 @@
-# 세방울산부두운영 홈페이지 시안 v3.20 (깃허브 페이지 임시 게시용, 전체 패키지)
+# 세방울산부두운영 홈페이지 시안 v3.22 (깃허브 페이지 임시 게시용, 전체 패키지)
 
-기준: 2026-09-26 시안(claude.ai 아티팩트 v52)과 동일한 내용입니다. 사진·로고·폰트(assets)까지 모두 들어 있어 이 폴더만으로 완성 화면이 나옵니다.
+기준: 2026-09-27 시안(claude.ai 아티팩트 v56)과 동일한 내용입니다. 사진·로고·폰트(assets)까지 모두 들어 있어 이 폴더만으로 완성 화면이 나옵니다.
 임시 공개용이라 검색엔진 수집을 막아 두었습니다(각 페이지 noindex, robots.txt 전체 차단).
+
+## v3.22 (v3.21 대비) 터미널 시뮬레이터 삭제·세부 다듬기
+
+- 터미널 시뮬레이터 전면 삭제: `terminal-simulator.html` 파일과 선석 제원 제목 줄의 실행 버튼(관련 스타일·스크립트 포함) 제거
+- **깃허브에 이미 올라가 있는 `terminal-simulator.html`은 저장소에서 직접 지워 주세요**(웹 화면에서 파일 열기 → 휴지통 아이콘 → Commit). 이 폴더를 덮어 올려도 기존 파일은 남습니다.
+- 하단 개인정보처리방침 볼드 해제(다른 링크와 같은 굵기)
+- 상·하단 CI 120% 확대(상단 60px, 모바일 53px, 하단 55px, 벡터라 깨짐 없음)
+- 페이지 설명(meta description)에서 시뮬레이터 문구 삭제
+
+## v3.21 (v3.20 대비) 문구·메뉴 정리
+
+- 히어로: 영문 문구(Sebang Ulsan Port Terminal) 삭제
+- 히어로 제목: "울산항 6·7·8부두," → "세방울산부두운영(주),"(영문: Sebang Ulsan Port Terminal, your trusted bulk cargo partner)
+- 주메뉴(PC·모바일)에서 "터미널 시뮬레이터" 삭제. 시뮬레이터 페이지와 선석 제원 제목 줄의 실행 버튼은 그대로 유지
+- 바뀐 파일은 index.html 하나입니다.
 
 ## v3.20 (v3.19 대비) 성능·사용성 개선
 
@@ -40,7 +55,6 @@ CI, 문구, 선석 제원, 한영 전환, 3D 모델과 판정 산식은 그대�
 
 ```
 index.html                 홈페이지(한 파일에 전 메뉴)
-terminal-simulator.html    터미널 시뮬레이터(별도 페이지)
 assets/                    사진·로고·파비콘·세방고딕 2.0 웹폰트
 404.html                   없는 주소 안내
 robots.txt, .nojekyll      검색 차단 / 깃허브 가공 끄기
@@ -51,8 +65,8 @@ robots.txt, .nojekyll      검색 차단 / 깃허브 가공 끄기
 ### 방법 1. 웹 화면에서 올리기 (가장 쉬움)
 
 1. 기존 저장소 첫 화면에서 **Add file > Upload files** 를 누릅니다.
-2. 압축을 푼 폴더 **안의 내용 전체**(index.html, terminal-simulator.html, assets 폴더, 404.html, robots.txt)를 끌어다 놓습니다. 같은 이름의 파일은 새 파일로 덮어써집니다.
-3. 아래 Commit changes 칸에 `v3.20 성능·사용성 개선` 처럼 적고 **Commit changes** 를 누릅니다.
+2. 압축을 푼 폴더 **안의 내용 전체**(index.html, assets 폴더, 404.html, robots.txt)를 끌어다 놓습니다. 같은 이름의 파일은 새 파일로 덮어써집니다.
+3. 아래 Commit changes 칸에 `v3.22 터미널 시뮬레이터 삭제` 처럼 적고 **Commit changes** 를 누릅니다.
 4. 1~2분 뒤 기존 주소(https://계정명.github.io/저장소명/)에서 새 버전이 보입니다. 안 보이면 브라우저에서 강력 새로고침(Ctrl+Shift+R)을 해 주세요.
 
 참고: `.nojekyll` 처럼 점(.)으로 시작하는 파일은 끌어다 놓기로 올라가지 않을 수 있습니다. 처음 게시할 때 이미 올렸다면 그대로 두면 되고, 없다면 **Add file > Create new file** 에서 이름을 `.nojekyll` 로 적고 내용 없이 커밋하면 됩니다.
@@ -64,7 +78,8 @@ git clone https://github.com/계정명/저장소명.git
 cd 저장소명
 (압축을 푼 폴더 안의 파일을 전부 여기로 복사해 덮어쓰기)
 git add -A
-git commit -m "v3.20 성능·사용성 개선"
+git rm terminal-simulator.html
+git commit -m "v3.22 터미널 시뮬레이터 삭제"
 git push
 ```
 
