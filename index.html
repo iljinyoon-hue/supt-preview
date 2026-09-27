@@ -922,6 +922,22 @@ body.en .ko-only{display:none!important}
     </div>
   </section>
 
+  <!-- 울산항 지금 (울산항만공사_항내 선박위치정보, data/port-now.json) -->
+  <section class="pn-band" id="home-portnow" aria-labelledby="pnH">
+    <div class="wrap pn-row">
+      <div class="pn-t">
+        <h2 id="pnH"><i class="pn-live" id="pnLive" aria-hidden="true"></i><span data-en="Ulsan Port now">울산항 지금</span></h2>
+        <span class="upa-src" id="pnSrc"></span>
+      </div>
+      <dl class="pn-nums">
+        <div><dt data-en="Vessels in port">재항 선박</dt><dd><b id="pnIn">-</b><small class="ko-only">척</small></dd></div>
+        <div><dt data-en="Alongside">부두 접안</dt><dd><b id="pnBerth">-</b><small class="ko-only">척</small></dd></div>
+        <div><dt data-en="At anchor">정박지 대기</dt><dd><b id="pnAnch">-</b><small class="ko-only">척</small></dd></div>
+      </dl>
+      <a class="pn-more" href="#/business/trend"><span data-en="Bulk cargo trends">벌크 화물 동향</span><svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5.5 15.5 10 11 14.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </section>
+
   <!-- 핵심 수치 (스크롤 진입 시 카운트업) -->
   <section class="stats-band" id="home-stats">
     <img class="bg" src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438" loading="lazy" decoding="async">
@@ -1322,6 +1338,7 @@ body.en .ko-only{display:none!important}
       <li><a href="#/business/transport" data-en="Transport">연계 운송</a></li>
       <li><a href="#/business/added" data-en="Value-added">부가 서비스</a></li>
       <li><a href="#/business/process" data-en="How to use">이용 절차</a></li>
+      <li><a href="#/business/trend" data-en="Cargo trends">화물 동향</a></li>
     </ul>
   </nav>
 
@@ -1406,6 +1423,39 @@ body.en .ko-only{display:none!important}
         <a class="btn" href="#/support/contact"><span data-en="Start an enquiry">문의하기</span></a>
         <a class="btn ghost" href="#/support/rates"><span data-en="See tariff">요율 안내</span></a>
       </div>
+    </div>
+  </section>
+
+  <!-- 울산항 벌크 화물 동향 (울산항만공사_울산항 수출입 화물정보, data/bulk-trend.json) -->
+  <section class="sec anchor" id="business-trend">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Ulsan Port Bulk Cargo</span>
+        <h2 data-en="Ulsan Port bulk cargo trends">울산항 벌크 화물 동향</h2>
+        <p class="lead ko-only">울산항에 입항한 벌크선·일반화물선의 수출입 화물입니다(유조선·가스선·컨테이너선·자동차선 제외). 울산항만공사 공공데이터로 매월 자동 갱신됩니다.</p>
+        <p class="lead en-only">Import and export cargo carried by bulk carriers and general cargo ships calling at Ulsan Port (tankers, gas carriers, container ships and car carriers excluded). Updated monthly from Ulsan Port Authority open data.</p>
+      </div>
+      <div class="bt-bar">
+        <div class="bt-sum" id="btSum"></div>
+        <div class="bt-seg" role="group" aria-label="수출입 구분" data-en-aria-label="Direction">
+          <button type="button" data-dir="all" aria-pressed="true" data-en="All">전체</button>
+          <button type="button" data-dir="imp" aria-pressed="false" data-en="Imports">수입</button>
+          <button type="button" data-dir="exp" aria-pressed="false" data-en="Exports">수출</button>
+        </div>
+      </div>
+      <div class="bt-grid">
+        <div class="bt-card">
+          <h3><span data-en="By cargo">품목별</span><small id="btItemsSub"></small></h3>
+          <ul class="bt-rows" id="btRows"></ul>
+        </div>
+        <div class="bt-card bt-chart">
+          <h3><span data-en="Monthly total">월별 합계</span><small data-en="last 13 months">최근 13개월</small></h3>
+          <div id="btChart"></div>
+          <div class="bt-tip" id="btTip" role="status"></div>
+        </div>
+      </div>
+      <table class="sr-only" id="btTable"></table>
+      <div class="bt-foot"><span class="upa-src" id="btSrc"></span><span class="ko-only">항만 전체 집계이며 당사 처리 실적과는 다릅니다.</span><span class="en-only">Port-wide totals, not our terminal's own figures.</span></div>
     </div>
   </section>
 </section>
@@ -1888,6 +1938,7 @@ body.en .ko-only{display:none!important}
     if (persist){ try { localStorage.setItem('supt-lang', en ? 'en' : 'ko'); } catch(e){} }
     syncCounts();
     renderNotices();
+    if (typeof window.renderUpa === 'function') window.renderUpa();
     if (typeof renderBmapCard === 'function') renderBmapCard();
     widontAll();
     if (typeof initMap === 'function' && current === 'about') initMap();
@@ -2399,4 +2450,188 @@ body.en .ko-only{display:none!important}
 .hero-dots .hero-pause svg{display:block;width:12px;height:12px}
 @media(max-width:680px){input,select,textarea{font-size:16px!important}.subnav{scrollbar-width:thin}.lang button{min-height:40px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-</style></body></html>
+</style><style>
+/* ---------- 울산항 공공데이터 연계 (v3.23): 울산항 지금 · 벌크 화물 동향 ---------- */
+.upa-src{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--ink-4);font-family:var(--font-latin)}
+.upa-src .ex{margin:0}
+/* 홈: 울산항 지금 */
+.pn-band{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pn-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px 48px;padding-block:26px}
+.pn-t{display:flex;flex-direction:column;gap:6px}
+.pn-t h2{margin:0;display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.pn-live{width:8px;height:8px;border-radius:50%;background:var(--ink-4);flex:none;position:relative}
+.pn-live.on{background:var(--green)}
+.pn-live.on::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--green);opacity:0;animation:pnPing 2.4s ease-out infinite}
+@keyframes pnPing{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.8);opacity:0}}
+.pn-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
+.pn-nums > div{padding:2px 0 2px 28px;border-left:1px solid var(--line-2)}
+.pn-nums dt{font-size:0.8125rem;color:var(--ink-3);margin-bottom:4px}
+.pn-nums dd{margin:0;display:flex;align-items:baseline;gap:4px}
+.pn-nums b{font-family:var(--font-latin);font-variant-numeric:tabular-nums;font-size:1.875rem;font-weight:700;line-height:1;color:var(--ink)}
+.pn-nums small{font-size:0.8125rem;color:var(--ink-3)}
+.pn-more{display:inline-flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--ink);white-space:nowrap;text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:2px}
+.pn-more:hover{border-color:var(--ink)}
+@media (max-width:900px){
+  .pn-row{grid-template-columns:1fr auto;padding-block:22px}
+  .pn-nums{grid-column:1 / -1;grid-row:2}
+  .pn-nums > div:first-child{padding-left:0;border-left:0}
+  .pn-nums > div{padding-left:16px}
+  .pn-nums b{font-size:1.5rem}
+}
+/* 사업 안내: 벌크 화물 동향 */
+.bt-bar{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;margin-bottom:22px}
+.bt-seg{display:inline-flex;border:1px solid var(--line-2);border-radius:999px;padding:2px}
+.bt-seg button{padding:7px 16px;border-radius:999px;font-size:0.8438rem;color:var(--ink-3);background:none;border:0;cursor:pointer}
+.bt-seg button[aria-pressed="true"]{background:var(--dark);color:#fff}
+.bt-sum{display:flex;align-items:baseline;gap:8px 18px;flex-wrap:wrap}
+.bt-sum .m{font-size:0.9375rem;color:var(--ink-3)}
+.bt-sum .v{font-family:var(--font-latin);font-variant-numeric:tabular-nums;font-size:1.75rem;font-weight:700;color:var(--ink);line-height:1.1}
+.bt-sum .d{font-size:0.9375rem;color:var(--ink-2,var(--ink-3));font-family:var(--font-latin);font-variant-numeric:tabular-nums}
+.bt-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px}
+.bt-card{position:relative;border:1px solid var(--line);border-radius:6px;padding:22px 24px 18px;background:var(--bg)}
+.bt-card h3{margin:0 0 16px;font-size:1rem;font-weight:700}
+.bt-card h3 small{font-weight:400;color:var(--ink-4);font-size:0.8125rem;margin-left:6px}
+.bt-rows{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.bt-rows li{display:grid;grid-template-columns:7.5em minmax(0,1fr) 6.2em 4.6em;align-items:center;gap:10px;font-size:0.875rem;outline:none}
+.bt-rows .nm{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bt-rows .tr{height:14px;background:var(--bg-3);border-radius:0 4px 4px 0;position:relative}
+.bt-rows .fill{position:absolute;left:0;top:0;bottom:0;background:var(--dark);border-radius:0 4px 4px 0;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+.bt-rows li:hover .fill,.bt-rows li:focus-visible .fill{background:var(--green)}
+.bt-rows .val{text-align:right;font-family:var(--font-latin);font-variant-numeric:tabular-nums;color:var(--ink)}
+.bt-rows .yoy{text-align:right;font-family:var(--font-latin);font-variant-numeric:tabular-nums;color:var(--ink-3);font-size:0.8125rem;white-space:nowrap}
+.bt-chart svg{display:block;width:100%;height:auto;overflow:visible}
+.bt-chart .gl{stroke:var(--line);stroke-width:1}
+.bt-chart .bl{stroke:var(--line-2);stroke-width:1}
+.bt-chart .ax{fill:var(--ink-4);font-family:var(--font-latin);font-size:11px}
+.bt-chart .col{fill:var(--gray)}
+.bt-chart .col.last{fill:var(--green)}
+.bt-chart .hit{fill:transparent;cursor:default}
+.bt-chart .hit:hover + .col,.bt-chart g:hover .col{fill:var(--dark)}
+.bt-chart .lv{fill:var(--ink);font-family:var(--font-latin);font-size:12px;font-weight:700}
+.bt-tip{position:absolute;z-index:3;pointer-events:none;background:var(--dark);color:#fff;border-radius:6px;padding:8px 11px;font-size:0.8125rem;line-height:1.45;box-shadow:0 8px 24px rgba(31,55,67,.2);opacity:0;transform:translate(-50%,-100%);white-space:nowrap;transition:opacity .12s}
+.bt-tip.on{opacity:1}
+.bt-tip b{display:block;font-weight:700}
+.bt-tip span{color:var(--on-dark-2)}
+.bt-foot{display:flex;justify-content:space-between;gap:10px 20px;flex-wrap:wrap;margin-top:18px;font-size:0.8125rem;color:var(--ink-4)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width:900px){.bt-grid{grid-template-columns:1fr}}
+@media (max-width:560px){.bt-card{padding:18px 14px 14px}.bt-rows li{grid-template-columns:5.2em minmax(0,1fr) 4.2em 4em;gap:8px;font-size:0.8125rem}.bt-rows .yoy{font-size:0.75rem}}
+@media (prefers-reduced-motion:reduce){.pn-live.on::after{animation:none}.bt-rows .fill{transition:none}}
+</style>
+<script>
+/* 울산항 공공데이터 연계 (v3.23)
+   - data/port-now.json   : 울산항 지금(재항·부두 접안·정박지 대기). 울산항만공사_항내 선박위치정보, GitHub Actions가 매시 갱신
+   - data/bulk-trend.json : 울산항 벌크 화물 동향(최근 13개월, 품목별·수출입별). 울산항만공사_울산항 수출입 화물정보, 매일 확인
+   파일을 못 읽으면 페이지에 넣어 둔 마지막 저장본을 보여줌 */
+(function(){
+  var PN_FB = {"source":"api","updated":"2026-09-27T10:03:26.755Z","inPort":116,"berthed":51,"anchored":26,"positionsAt":"2026-09-27T09:55:07.000Z"};
+  var BT_FB = {"source":"api","updated":"2026-09-27T10:03:26.755Z","unit":"t","latest":"2026-08","months":["2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"],"total":{"all":[1107641,968880,1202329,1117764,1048087,917100,814128,1241907,897836,1084271,868707,1051330,887887],"imp":[942425,888199,1028990,1013818,910843,806123,723372,1094219,812832,977558,751132,883329,760108],"exp":[165215,80683,173339,103946,137242,110976,90756,147688,85005,106714,117573,168002,127780]},"items":[{"ko":"광석·정광","en":"Ores & concentrates","all":[309457,286928,350196,339171,215432,271770,190185,317263,214956,286563,207626,254063,236200],"imp":[309457,286928,343152,339171,215432,271770,186214,317263,214956,284571,207626,250890,233047],"exp":[0,0,7044,0,0,0,3971,0,0,1992,0,3173,3153]},{"ko":"석탄·코크스","en":"Coal & coke","all":[33000,158451,123800,194688,93309,100670,122600,133300,157457,123800,141930,55106,78010],"imp":[33000,158451,123800,194688,93309,100670,122600,133300,157457,123800,141930,55106,78010],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"곡물","en":"Grain","all":[159857,47427,156784,188749,125202,106346,123810,183172,103504,180898,108443,192405,112385],"imp":[159857,47427,156784,164074,125202,106346,123810,183172,103504,180898,93247,192405,112385],"exp":[0,0,0,24675,0,0,0,0,0,0,15196,0,0]},{"ko":"사료","en":"Animal feed","all":[50511,39881,24279,51868,90898,15843,61345,100460,6446,34052,61200,38723,19309],"imp":[50511,39881,24279,51868,90898,15843,61345,100460,6446,34052,61200,38723,19309],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"소금·규사","en":"Salt & sand","all":[87806,99146,114055,79537,153911,23124,67628,110464,18163,63930,55213,86329,70375],"imp":[76741,94635,109193,79537,149399,23124,67628,106454,18163,60922,51604,75264,65613],"exp":[11065,4512,4862,0,4512,0,0,4010,0,3007,3609,11065,4762]},{"ko":"목재·우드칩","en":"Timber & wood chips","all":[118238,41468,82687,39484,76258,78165,36021,33467,144474,115708,39548,66505,74745],"imp":[118238,41468,82687,39484,76258,78165,36021,33467,144474,115708,39548,66505,74745],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"비료","en":"Fertiliser","all":[80607,77405,51655,17470,108006,55032,46612,82512,41834,73338,29515,67827,38388],"imp":[54584,77405,48623,17470,80306,45433,46612,81012,37797,71155,27997,61305,34876],"exp":[26023,0,3032,0,27700,9599,0,1500,4037,2184,1518,6522,3512]},{"ko":"화학제품","en":"Chemicals","all":[70996,52689,105573,45463,56075,78975,82152,74020,55340,64346,24075,90124,82279],"imp":[916,9615,0,0,4950,10461,7955,13550,5215,4957,7011,6600,0],"exp":[70080,43074,105573,45463,51125,68513,74197,60470,50125,59390,17064,83524,82279]},{"ko":"펄프·종이","en":"Pulp & paper","all":[42733,23462,38784,51235,24582,42944,30109,37105,44733,24591,42411,45242,43597],"imp":[42733,23462,38784,51235,24582,42944,30109,37105,44733,24591,42411,45242,43597],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"철강","en":"Steel","all":[86691,69196,86651,53283,57329,42504,41695,109056,49047,60436,84663,90644,68988],"imp":[50437,55626,43111,32744,43626,20384,34946,43057,33618,34351,20774,50583,45202],"exp":[36253,13570,43540,20539,13703,22120,6748,65999,15430,26085,63888,40061,23786]},{"ko":"비철금속","en":"Non-ferrous metals","all":[3750,10132,16563,0,32127,6645,4997,3293,4469,6240,8297,10956,11223],"imp":[3750,10132,16563,0,5819,6645,4997,3293,4469,6240,4646,4646,11223],"exp":[0,0,0,0,26307,0,0,0,0,0,3651,6310,0]},{"ko":"설탕","en":"Sugar","all":[42000,42000,42000,42000,0,84000,0,42000,42000,35000,42000,35000,42000],"imp":[42000,42000,42000,42000,0,84000,0,42000,42000,35000,42000,35000,42000],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"기계·설비","en":"Machinery & equipment","all":[18436,18112,8067,13816,10763,9082,4378,13212,11714,12179,9500,14016,8380],"imp":[201,1169,14,1547,1057,338,1135,86,0,1313,638,1060,101],"exp":[18235,16944,8053,12269,9706,8744,3244,13126,11714,10866,8862,12957,8280]},{"ko":"기타","en":"Others","all":[3559,2583,1235,1000,4195,2000,2596,2583,3699,3190,14286,4390,2008],"imp":[0,0,0,0,5,0,0,0,0,0,10500,0,0],"exp":[3559,2583,1235,1000,4189,2000,2596,2583,3699,3190,3785,4390,2008]}],"records":4710};
+  var pn = null, bt = null, dir = 'all';
+  var EN = function(){ return document.body.classList.contains('en'); };
+  function load(url, fb){
+    if (!window.fetch) return Promise.resolve(fb);
+    return fetch(url, { cache: 'no-store' }).then(function(r){ if (!r.ok) throw 0; return r.json(); }).catch(function(){ return fb; });
+  }
+  function two(n){ return (n < 10 ? '0' : '') + n; }
+  function stamp(iso){
+    var d = new Date(iso); if (isNaN(d)) return '';
+    var k = new Date(d.getTime() + (9 * 60 + d.getTimezoneOffset()) * 60000);   // 한국 시간
+    return two(k.getMonth() + 1) + '.' + two(k.getDate()) + ' ' + two(k.getHours()) + ':' + two(k.getMinutes());
+  }
+  function srcHTML(o, withTime){
+    if (!o || o.source !== 'api') return '<span class="ex">' + (EN() ? 'Sample' : '예시') + '</span>' + (EN() ? 'open data not yet connected' : '공공데이터 연결 전');
+    return (EN() ? 'Ulsan Port Authority open data' : '울산항만공사 공공데이터') + (withTime ? ' · ' + stamp(o.updated) + (EN() ? ' KST' : ' 기준') : '');
+  }
+  function fresh(o){ return o && o.source === 'api' && (Date.now() - new Date(o.positionsAt || o.updated).getTime()) < 3 * 3600e3; }
+
+  /* 울산항 지금 */
+  function renderPN(){
+    if (!pn || !document.getElementById('pnIn')) return;
+    var set = function(id, v){ document.getElementById(id).textContent = (v === null || v === undefined || isNaN(v)) ? '-' : Number(v).toLocaleString('en-US'); };
+    set('pnIn', pn.inPort); set('pnBerth', pn.berthed); set('pnAnch', pn.anchored);
+    document.getElementById('pnSrc').innerHTML = srcHTML({ source: pn.source, updated: pn.positionsAt || pn.updated }, true);
+    document.getElementById('pnLive').classList.toggle('on', fresh(pn));
+  }
+
+  /* 벌크 화물 동향 */
+  function tons(v, short){
+    if (EN()) return v >= 1e6 ? (v / 1e6).toFixed(2) + 'M t' : Math.round(v / 1e3).toLocaleString('en-US') + 'k t';
+    return (v / 1e4).toFixed(v >= 1e6 ? 0 : 1) + (short ? '만' : '만 톤');
+  }
+  function pct(a, b){ if (!b) return null; return (a - b) / b * 100; }
+  function pctTxt(p){ if (p === null) return '-'; var s = Math.abs(p).toFixed(1) + '%'; return (p > 0.05 ? '▲ ' : p < -0.05 ? '▼ ' : '') + s; }
+  function monthName(ym, short){
+    var y = +ym.slice(0, 4), m = +ym.slice(5, 7);
+    if (EN()) { var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m - 1]; return short ? M : M + ' ' + y; }
+    return short ? (String(y).slice(2) + '.' + m) : (y + '년 ' + m + '월');
+  }
+  function renderBT(){
+    if (!bt || !document.getElementById('btRows')) return;
+    var n = bt.months.length, L = n - 1, P = n - 13 >= 0 ? n - 13 : null;
+    var tot = bt.total[dir], cur = tot[L], prev = P !== null ? tot[P] : null, dp = pct(cur, prev);
+    document.getElementById('btSum').innerHTML =
+      '<span class="m">' + monthName(bt.months[L]) + (EN() ? ' total' : ' 합계') + '</span>' +
+      '<span class="v">' + tons(cur) + '</span>' +
+      '<span class="d">' + (EN() ? 'vs ' + monthName(bt.months[P] || bt.months[0]) + ' ' : '전년 동월 대비 ') + pctTxt(dp) + '</span>';
+    // 품목별(이번 달, 큰 순서 6개 + 나머지)
+    var rows = bt.items.map(function(it){ return { ko: it.ko, en: it.en, v: it[dir][L], p: P !== null ? it[dir][P] : null }; })
+      .filter(function(r){ return r.v > 0; }).sort(function(a, b){ return b.v - a.v; });
+    var named = rows.filter(function(r){ return r.ko !== '기타'; }), top = named.slice(0, 8), rest = named.slice(8).concat(rows.filter(function(r){ return r.ko === '기타'; }));
+    if (rest.length) top.push({ ko: '그 밖의 품목', en: 'Others', v: rest.reduce(function(s, r){ return s + r.v; }, 0), p: rest.every(function(r){ return r.p !== null; }) ? rest.reduce(function(s, r){ return s + r.p; }, 0) : null });
+    var max = Math.max.apply(null, top.map(function(r){ return r.v; })) || 1;
+    document.getElementById('btItemsSub').textContent = monthName(bt.months[L]) + (EN() ? '' : ' · 톤');
+    document.getElementById('btRows').innerHTML = top.map(function(r){
+      var p = pct(r.v, r.p), name = EN() ? r.en : r.ko;
+      var aria = name + ' ' + tons(r.v) + ', ' + (EN() ? 'year on year ' : '전년 동월 대비 ') + pctTxt(p);
+      return '<li tabindex="0" aria-label="' + aria + '"><span class="nm">' + name + '</span><span class="tr"><span class="fill" style="width:' + (r.v / max * 100).toFixed(1) + '%"></span></span><span class="val">' + tons(r.v, true) + '</span><span class="yoy">' + pctTxt(p) + '</span></li>';
+    }).join('');
+    // 월별 합계(세로 막대, 최신 달 강조)
+    var W = 520, H = 290, pl = 44, pr = 8, pt = 22, pb = 26, cw = (W - pl - pr) / n;
+    var vmax = Math.max.apply(null, tot), step = niceStep(vmax / 3), top2 = Math.ceil(vmax / step) * step;
+    var y = function(v){ return pt + (H - pt - pb) * (1 - v / top2); };
+    var g = '';
+    for (var t = 0; t <= top2 + 1; t += step) g += '<line class="gl" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y(t).toFixed(1) + '" y2="' + y(t).toFixed(1) + '"/><text class="ax" x="' + (pl - 8) + '" y="' + (y(t) + 4).toFixed(1) + '" text-anchor="end">' + axis(t) + '</text>';
+    var bars = '';
+    for (var i = 0; i < n; i++){
+      var x = pl + i * cw + cw * 0.18, bw = cw * 0.64, yy = y(tot[i]), h = H - pb - yy;
+      var r = Math.min(4, bw / 2), last = i === L;
+      var path = 'M' + x.toFixed(1) + ',' + (H - pb) + 'V' + (yy + r).toFixed(1) + 'Q' + x.toFixed(1) + ',' + yy.toFixed(1) + ' ' + (x + r).toFixed(1) + ',' + yy.toFixed(1) + 'H' + (x + bw - r).toFixed(1) + 'Q' + (x + bw).toFixed(1) + ',' + yy.toFixed(1) + ' ' + (x + bw).toFixed(1) + ',' + (yy + r).toFixed(1) + 'V' + (H - pb) + 'Z';
+      bars += '<g data-i="' + i + '"><path class="col' + (last ? ' last' : '') + '" d="' + path + '"/><rect class="hit" x="' + (pl + i * cw).toFixed(1) + '" y="' + pt + '" width="' + cw.toFixed(1) + '" height="' + (H - pt - pb) + '"/></g>';
+      if (i % 3 === L % 3) bars += '<text class="ax" x="' + (x + bw / 2).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + monthName(bt.months[i], true) + '</text>';
+      if (last) bars += '<text class="lv" x="' + (x + bw / 2).toFixed(1) + '" y="' + (yy - 7).toFixed(1) + '" text-anchor="middle">' + tons(tot[i], true) + '</text>';
+    }
+    document.getElementById('btChart').innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (EN() ? 'Monthly bulk cargo total, last 13 months' : '최근 13개월 월별 벌크 화물 합계') + '">' + g + '<line class="bl" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + (H - pb) + '" y2="' + (H - pb) + '"/>' + bars + '</svg>';
+    // 표(화면 낭독기용)
+    document.getElementById('btTable').innerHTML = '<caption>' + (EN() ? 'Monthly bulk cargo, tonnes' : '월별 벌크 화물 합계(톤)') + '</caption><tr><th>' + (EN() ? 'Month' : '월') + '</th><th>' + (EN() ? 'Tonnes' : '톤') + '</th></tr>' +
+      bt.months.map(function(m, i){ return '<tr><td>' + monthName(m) + '</td><td>' + tot[i].toLocaleString('en-US') + '</td></tr>'; }).join('');
+    document.getElementById('btSrc').innerHTML = srcHTML(bt, false) + (bt.source === 'api' ? ' · ' + (EN() ? 'latest: ' : '최근 자료 ') + monthName(bt.months[L]) : '');
+  }
+  function niceStep(v){ var p = Math.pow(10, Math.floor(Math.log10(v))), f = v / p; return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * p; }
+  function axis(v){ return v === 0 ? '0' : EN() ? (v >= 1e6 ? (v / 1e6) + 'M' : (v / 1e3) + 'k') : (v / 1e4) + '만'; }
+
+  // 월별 막대 툴팁
+  document.addEventListener('mouseover', function(e){
+    var gEl = e.target.closest && e.target.closest('#btChart g[data-i]'), tip = document.getElementById('btTip');
+    if (!tip) return;
+    if (!gEl){ tip.classList.remove('on'); return; }
+    var i = +gEl.getAttribute('data-i'), tot = bt.total[dir], p = i - 12 >= 0 ? tot[i - 12] : null;
+    tip.innerHTML = '<b>' + monthName(bt.months[i]) + '</b>' + tot[i].toLocaleString('en-US') + (EN() ? ' t' : ' 톤') + (p !== null ? '<br><span>' + (EN() ? 'YoY ' : '전년 동월 대비 ') + pctTxt(pct(tot[i], p)) + '</span>' : '');
+    var card = tip.parentNode.getBoundingClientRect(), r = gEl.querySelector('.col').getBoundingClientRect();
+    tip.style.left = (r.left - card.left + r.width / 2) + 'px'; tip.style.top = (r.top - card.top - 8) + 'px';
+    tip.classList.add('on');
+  });
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('.bt-seg button'); if (!b) return;
+    dir = b.getAttribute('data-dir');
+    document.querySelectorAll('.bt-seg button').forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+    renderBT();
+  });
+  window.renderUpa = function(){ renderPN(); renderBT(); };
+  load('data/port-now.json', PN_FB).then(function(d){ pn = d; renderPN(); });
+  load('data/bulk-trend.json', BT_FB).then(function(d){ bt = d; renderBT(); });
+  // 탭을 오래 열어 두면 30분마다 울산항 지금을 다시 읽음
+  setInterval(function(){ if (!document.hidden) load('data/port-now.json', pn).then(function(d){ pn = d; renderPN(); }); }, 30 * 60e3);
+})();
+</script>
+
+</body></html>
