@@ -1,0 +1,26 @@
+# 진단용: 깃허브 서버에서 공공데이터포털 API에 접속되는지 확인 (수동 실행 전용, 확인 후 삭제)
+name: 접속 진단
+on:
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 실행 서버 위치
+        run: curl -s -m 10 https://ipinfo.io/json || echo "위치 확인 실패"
+      - name: DNS 조회
+        run: getent hosts apis.data.go.kr || echo "DNS 실패"
+      - name: 공공데이터 API 접속 시험
+        env:
+          KEY: ${{ secrets.DATA_GO_KR_KEY }}
+        run: |
+          for u in https://apis.data.go.kr/ http://apis.data.go.kr/ https://www.data.go.kr/ https://www.naver.com/; do
+            echo "== $u"
+            curl -sS -o /dev/null -m 15 --connect-timeout 10 -w "HTTP %{http_code} / 연결 %{time_connect}s / 전체 %{time_total}s\n" "$u" || echo "접속 실패"
+          done
+          echo "== 선박위치 API (인증키 포함, 1건)"
+          curl -sS -m 20 --connect-timeout 10 -G "https://apis.data.go.kr/B551938/VslPstnInfoService/getVslPstnInfo" --data-urlencode "serviceKey=$KEY" -d numOfRows=1 -d pageNo=1 -d resultType=json | head -c 400 || echo "접속 실패"
+          echo
+          echo "== Node fetch 오류 원인"
+          node -e "fetch('https://apis.data.go.kr/').then(r=>console.log('HTTP',r.status)).catch(e=>console.log(e.message,'/',e.cause&&(e.cause.code||e.cause.message)))"
