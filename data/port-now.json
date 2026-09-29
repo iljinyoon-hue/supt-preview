@@ -1,8 +1,8 @@
 {
  "source": "api",
- "updated": "2026-09-29T02:33:21.596Z",
- "inPort": 121,
+ "updated": "2026-09-29T09:39:55.373Z",
+ "inPort": 110,
  "berthed": 51,
- "anchored": 29,
- "positionsAt": "2026-09-29T02:25:07.000Z"
+ "anchored": 26,
+ "positionsAt": "2026-09-29T09:30:09.000Z"
 }
