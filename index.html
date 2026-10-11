@@ -54,6 +54,9 @@
   --header-h:80px;
   --subnav-h:52px;
   --radius:4px;
+  /* 모션 토큰(transitions.dev 기준): 빠름=누름·마우스오버, 보통=열기·닫기·전환, 느림=등장·차트 */
+  --dur-1:.15s; --dur-2:.3s; --dur-3:.6s;
+  --ease-out:cubic-bezier(.2,.7,.2,1); --ease-std:cubic-bezier(.4,0,.2,1); --ease-in:cubic-bezier(.4,0,1,1);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;font-size:120%}
@@ -97,7 +100,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .draft-bar button{margin-left:auto;font-size:0.75rem;color:var(--ink-3);text-decoration:underline;text-underline-offset:3px}
 
 /* ---------- 헤더 ---------- */
-.site-header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--line);transition:background .35s ease,border-color .35s ease}
+.site-header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--line);transition:background var(--dur-2) var(--ease-std),border-color var(--dur-2) var(--ease-std)}
 /* 상단(사진 위)에서는 투명 헤더 → 스크롤하면 흰색으로 전환 */
 body.hdr-clear .site-header{background:transparent;border-color:transparent;backdrop-filter:none}
 body.hdr-clear .brand{color:#fff}
@@ -110,7 +113,7 @@ body.hdr-clear .lang button[aria-pressed="true"]{background:#fff;color:var(--ink
 body.hdr-clear .hdr-cta{background:transparent;border-color:rgba(255,255,255,.55);color:#fff}
 body.hdr-clear .hdr-cta:hover{background:rgba(255,255,255,.1);border-color:#fff}
 body.hdr-clear .burger span,body.hdr-clear .burger span::before,body.hdr-clear .burger span::after{background:#fff}
-.brand,.gnb a,.lang,.lang button,.hdr-cta{transition:color .3s,background-color .3s,border-color .3s}
+.brand,.gnb a,.lang,.lang button,.hdr-cta{transition:color var(--dur-2),background-color var(--dur-2),border-color var(--dur-2)}
 .site-header .wrap{display:flex;align-items:center;gap:28px;height:var(--header-h)}
 .brand{display:flex;align-items:center;color:var(--ink);flex:none}
 .brand svg{height:60px;width:auto;display:block}
@@ -125,8 +128,11 @@ body.en .brand .logo-en{display:block}
 .hdr-right{margin-left:auto;display:flex;align-items:center;gap:14px}
 .lang{display:inline-flex;border:1px solid var(--line-2);border-radius:999px;padding:2px;font-family:var(--font-latin);font-size:0.7812rem;font-weight:400;letter-spacing:.04em}
 .lang button{padding:4px 12px;border-radius:999px;color:var(--ink-3);line-height:1.4}
-.lang button[aria-pressed="true"]{background:var(--ink);color:#fff}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:var(--radius);font-weight:400;font-size:0.9375rem;line-height:1.3;border:1px solid var(--ink);background:var(--ink);color:#fff;transition:background .15s,border-color .15s,color .15s;white-space:nowrap}
+.lang{position:relative;isolation:isolate}
+.lang button{position:relative;z-index:1;transition:color var(--dur-2) var(--ease-std)}
+.lang button[aria-pressed="true"]{color:#fff}
+.lang .ind{position:absolute;top:2px;bottom:2px;left:0;width:0;border-radius:999px;background:var(--ink);z-index:0;pointer-events:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:var(--radius);font-weight:400;font-size:0.9375rem;line-height:1.3;border:1px solid var(--ink);background:var(--ink);color:#fff;transition:background var(--dur-1),border-color var(--dur-1),color var(--dur-1);white-space:nowrap}
 .btn:hover{background:var(--dark-3);border-color:var(--dark-3)}
 .btn.ghost{background:transparent;color:var(--ink)}
 .btn.ghost:hover{background:var(--bg-2)}
@@ -141,12 +147,26 @@ body.en .brand .logo-en{display:block}
 .burger span{display:block;width:22px;height:2px;background:var(--ink);position:relative}
 .burger span::before,.burger span::after{content:"";position:absolute;left:0;width:22px;height:2px;background:var(--ink)}
 .burger span::before{top:-7px}.burger span::after{top:7px}
-.mnav{display:none;background:#fff;border-bottom:1px solid var(--line)}
-.mnav > a{display:block;padding:14px var(--gutter);border-top:1px solid var(--line);font-weight:700;color:var(--ink)}
-.mnav > a[aria-current="page"]{color:var(--green-ink)}
+.mnav{display:grid;grid-template-rows:0fr;background:#fff;border-bottom:0;visibility:hidden;transition:grid-template-rows var(--dur-2) var(--ease-out),box-shadow var(--dur-2),visibility 0s var(--dur-2)}
+.mnav-in{min-height:0;overflow:hidden}
+.mnav-in > *{opacity:0;transform:translateY(-6px);transition:opacity var(--dur-1) var(--ease-std),transform var(--dur-2) var(--ease-out)}
+.mnav-in > a{display:block;padding:14px var(--gutter);border-top:1px solid var(--line);font-weight:700;color:var(--ink)}
+.mnav-in > a[aria-current="page"]{color:var(--green-ink)}
 .mnav .mnav-foot .btn{display:inline-flex;padding:9px 16px;border-top:1px solid var(--ink);font-weight:400;color:#fff}
 .mnav .mnav-foot{display:flex;gap:12px;align-items:center;padding:14px var(--gutter);border-top:1px solid var(--line)}
-body.nav-open .mnav{display:block}
+body.nav-open .mnav{grid-template-rows:1fr;box-shadow:inset 0 -1px 0 var(--line);visibility:visible;transition:grid-template-rows var(--dur-2) var(--ease-out),box-shadow var(--dur-2),visibility 0s}
+body.nav-open .mnav-in > *{opacity:1;transform:none}
+body.nav-open .mnav-in > *:nth-child(1){transition-delay:0ms}
+body.nav-open .mnav-in > *:nth-child(2){transition-delay:30ms}
+body.nav-open .mnav-in > *:nth-child(3){transition-delay:60ms}
+body.nav-open .mnav-in > *:nth-child(4){transition-delay:90ms}
+body.nav-open .mnav-in > *:nth-child(5){transition-delay:120ms}
+body.nav-open .mnav-in > *:nth-child(6){transition-delay:150ms}
+.burger span{transition:background var(--dur-1) var(--ease-std)}
+.burger span::before,.burger span::after{transition:top var(--dur-2) var(--ease-out),transform var(--dur-2) var(--ease-out)}
+body.nav-open .burger span{background:transparent!important}
+body.nav-open .burger span::before{top:0;transform:rotate(45deg)}
+body.nav-open .burger span::after{top:0;transform:rotate(-45deg)}
 @media (max-width:1140px){
   .gnb{display:none}
   .burger{display:inline-flex}
@@ -181,17 +201,17 @@ h3.sub{font-size:1.25rem;margin-bottom:14px}
 .card p{color:var(--ink-3);font-size:0.9375rem}
 .card .ico{width:40px;height:40px;color:var(--green);margin-bottom:18px}
 .card .ico svg{width:40px;height:40px}
-.card.link{display:block;transition:border-color .15s}
+.card.link{display:block;transition:border-color var(--dur-1)}
 .card.link:hover{border-color:var(--gray)}
-.more{display:inline-flex;align-items:center;gap:6px;font-weight:400;color:var(--ink);font-size:0.9062rem;margin-top:16px}
-.more svg{width:14px;height:14px;transition:transform .15s}
+.more{display:inline-flex;align-items:center;gap:6px;font-weight:400;color:var(--ink);font-size:0.9062rem;margin-top:16px;transition:color var(--dur-1) var(--ease-std)}
+.more svg{width:14px;height:14px;transition:transform var(--dur-1)}
 .more:hover{color:var(--green-ink)}
 .more:hover svg{transform:translateX(3px)}
 
 /* 홈 서비스 3열 (카드 없이) */
 .svc3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--ink)}
-.svc3 > a{display:block;padding:28px 28px 28px 0;border-bottom:1px solid var(--line);position:relative;transition:background .3s}
-.svc3 > a::before{content:"";position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.svc3 > a{display:block;padding:28px 28px 28px 0;border-bottom:1px solid var(--line);position:relative;transition:background var(--dur-2)}
+.svc3 > a::before{content:"";position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform var(--dur-3) var(--ease-out)}
 .svc3 > a:hover::before{transform:scaleX(1)}
 .svc3 > a:hover .more{color:var(--green-ink)}
 .svc3 > a + a{padding-left:28px;border-left:1px solid var(--line)}
@@ -260,13 +280,15 @@ table.tbl caption{caption-side:bottom;text-align:left;font-size:0.8125rem;color:
 .subnav ul::-webkit-scrollbar{display:none}
 .subnav a{display:block;padding:15px 12px;font-size:0.9062rem;font-weight:400;color:var(--ink-3);white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
 .subnav a:hover{color:var(--ink)}
-.subnav a.on{color:var(--ink);border-bottom-color:var(--green)}
+.subnav a.on{color:var(--ink)}
+.subnav ul{position:relative}
+.subnav .ind{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--green);pointer-events:none}
 .anchor{scroll-margin-top:calc(var(--header-h) + var(--subnav-h) + 16px)}
 
 /* ---------- 홈 히어로 (사진) ---------- */
 .hero{background:var(--dark);color:#fff;position:relative;overflow:hidden;min-height:clamp(560px,86vh,860px);display:flex;align-items:center;padding-top:calc(var(--header-h) + env(safe-area-inset-top,0px))}
 .hero-slides{position:absolute;inset:0;overflow:hidden}
-.hero-slides .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease}
+.hero-slides .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s var(--ease-std)}
 .hero-slides .slide.is-active{opacity:1}
 .hero-slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:58% 42%;display:block;transform:scale(1.04);will-change:transform}
 .hero-slides .slide.is-active img{animation:kb-a 9s cubic-bezier(.2,.4,.4,1) forwards}
@@ -281,7 +303,7 @@ body.en .hero h1{font-size:clamp(1.625rem,3.2vw,2.75rem)}
 .hero .lead{margin-top:22px;color:#E4E9EC;font-size:clamp(0.9688rem,1.25vw,1.125rem);max-width:52ch;font-weight:300}
 .hero .cta{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
 /* 문구 순차 등장 */
-.hero-text > *{opacity:0;transform:translateY(22px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+.hero-text > *{opacity:0;transform:translateY(22px);animation:rise var(--dur-3) var(--ease-out) forwards}
 .hero-text > .eyebrow{animation-delay:.15s}
 .hero-text > h1{animation-delay:.3s}
 .hero-text > .lead{animation-delay:.5s}
@@ -323,7 +345,7 @@ body.en .hero h1{font-size:clamp(1.625rem,3.2vw,2.75rem)}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--dark-line)}
 .stats > div{padding:34px 28px 8px 0;position:relative}
 .stats > div + div{padding-left:28px;border-left:1px solid var(--dark-line)}
-.stats > div::before{content:"";position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--green);transition:width 1.2s cubic-bezier(.2,.7,.2,1) .2s}
+.stats > div::before{content:"";position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--green);transition:width var(--dur-3) var(--ease-out) .2s}
 .stats > div + div::before{left:28px}
 .stats-band.in .stats > div::before{width:44px}
 .stats .v{font-family:var(--font-latin);font-size:clamp(2.5rem,4.6vw,4rem);font-weight:300;color:#fff;letter-spacing:-.02em;line-height:1.05;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -375,7 +397,7 @@ body.en .hero h1{font-size:clamp(1.625rem,3.2vw,2.75rem)}
 
 /* 관계기관 링크 */
 .links{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
-.links a{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:18px 16px;border:1px solid var(--line);border-radius:var(--radius);min-height:76px;font-size:0.9062rem;font-weight:400;color:var(--ink);background:#fff;transition:border-color .15s}
+.links a{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:18px 16px;border:1px solid var(--line);border-radius:var(--radius);min-height:76px;font-size:0.9062rem;font-weight:400;color:var(--ink);background:#fff;transition:border-color var(--dur-1)}
 .links a small{font-family:var(--font-latin);font-size:0.7188rem;color:var(--ink-4);font-weight:400;letter-spacing:.02em}
 .links a:hover{border-color:var(--gray)}
 @media (max-width:1000px){.links{grid-template-columns:repeat(3,1fr)}}
@@ -442,33 +464,34 @@ body.en .map-links .gmap{order:-1}
 .bmap-stage{position:relative;background:#0F1C23;overflow:hidden;user-select:none;align-self:start}
 .bmap-img{display:block;width:100%;height:auto;filter:saturate(.92) contrast(1.04)}
 .bmap-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-.bmap-veil{fill:rgba(15,28,35,0);transition:fill .45s ease}
+.bmap-veil{fill:rgba(15,28,35,0);transition:fill var(--dur-2) var(--ease-std)}
 .bmap-stage.has-active .bmap-veil{fill:rgba(15,28,35,.42)}
-.bmap-berths .berth{fill:rgba(1,171,170,.16);stroke:rgba(255,255,255,.7);stroke-width:1.5;stroke-linejoin:round;pointer-events:auto;cursor:pointer;transition:fill .3s,stroke .3s;vector-effect:non-scaling-stroke}
+.bmap-berths .berth{fill:rgba(1,171,170,.16);stroke:rgba(255,255,255,.7);stroke-width:1.5;stroke-linejoin:round;pointer-events:auto;cursor:pointer;transition:fill var(--dur-2),stroke var(--dur-2);vector-effect:non-scaling-stroke}
 .bmap-berths .berth.is-active{fill:rgba(1,171,170,.38);stroke:#fff;stroke-width:2;filter:url(#bmapGlow)}
-.bmap-quays .quay{stroke:var(--green);stroke-width:4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.9;transition:stroke .3s,opacity .3s}
+.bmap-quays .quay{stroke:var(--green);stroke-width:4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.9;transition:stroke var(--dur-2),opacity var(--dur-2)}
 .bmap-quays .quay.is-active{stroke:#fff;filter:url(#bmapGlow)}
 .bmap-stage.has-active .bmap-quays .quay:not(.is-active){opacity:.55}
 /* 등장 모션: 선석 외곽선 드로잉 + 안벽선 */
 .bmap.reveal .berth{stroke-dasharray:1200;stroke-dashoffset:1200;fill-opacity:0}
-.bmap.reveal.in .berth{animation:bmapDraw 1.3s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0) * .18s + .2s)}
+.bmap.reveal.in .berth{animation:bmapDraw calc(var(--dur-3) * 2) var(--ease-out) forwards;animation-delay:calc(var(--i,0) * .18s + .2s)}
 .bmap.reveal .quay{stroke-dasharray:600;stroke-dashoffset:600}
-.bmap.reveal.in .quay{animation:bmapLine 1s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0) * .18s + .9s)}
+.bmap.reveal.in .quay{animation:bmapLine calc(var(--dur-3) * 2) var(--ease-out) forwards;animation-delay:calc(var(--i,0) * .18s + .9s)}
 @keyframes bmapDraw{to{stroke-dashoffset:0;fill-opacity:1}}
 @keyframes bmapLine{to{stroke-dashoffset:0}}
 .bmap.reveal .bmap-2d .bmap-pin{opacity:0;transform:translate(-50%,-50%) scale(.85)}
-.bmap.reveal.in .bmap-2d .bmap-pin{animation:bmapPin .5s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0) * .18s + 1.3s)}
+.bmap.reveal.in .bmap-2d .bmap-pin{animation:bmapPin var(--dur-3) var(--ease-out) forwards;animation-delay:calc(var(--i,0) * .18s + 1.3s)}
 @keyframes bmapPin{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 /* 라벨 칩 */
-.bmap-pin{position:absolute;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 8px;border-radius:999px;background:rgba(15,28,35,.82);color:#fff;font-size:0.7812rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.28);backdrop-filter:blur(4px);cursor:pointer;transition:background .25s,transform .25s;z-index:2}
+.bmap-pin{position:absolute;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 8px;border-radius:999px;background:rgba(15,28,35,.82);color:#fff;font-size:0.7812rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.28);backdrop-filter:blur(4px);cursor:pointer;transition:background .25s,transform .25s,color var(--dur-1) var(--ease-std);z-index:2}
 .bmap-pin i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(1,171,170,.28);flex:none}
 .bmap-pin .short{display:none}
 .bmap-lead{position:absolute;width:1px;background:rgba(255,255,255,.75);transform:translateX(-50%);z-index:1;pointer-events:none}
 .bmap.reveal .bmap-lead{opacity:0}
-.bmap.reveal.in .bmap-lead{transition:opacity .5s 1.4s;opacity:1}
+.bmap.reveal.in .bmap-lead{transition:opacity var(--dur-3);transition-delay:1.4s;opacity:1}
 .bmap-pin.side{transform:translate(0,-50%);padding-left:9px}
 .bmap-pin.side::before{content:"";position:absolute;left:-14px;top:50%;width:14px;height:1px;background:rgba(255,255,255,.7)}
 .bmap-pin:hover,.bmap-pin.is-active{background:var(--green);color:#fff}
+.bmap-pin i{transition:background var(--dur-1) var(--ease-std),box-shadow var(--dur-1) var(--ease-std)}
 .bmap-pin:hover i,.bmap-pin.is-active i{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3)}
 .bmap.reveal.in .bmap-2d .bmap-pin.side{animation-name:bmapPinSide}
 @keyframes bmapPinSide{to{opacity:1;transform:translate(0,-50%) scale(1)}}
@@ -481,21 +504,21 @@ body.en .map-links .gmap{order:-1}
 .bmap-topbar{position:absolute;left:14px;top:14px;display:flex;align-items:center;gap:8px;z-index:3}
 .bmap-topbar .bmap-tag{position:static}
 .bmap-switch{display:inline-flex;padding:3px;border-radius:999px;background:rgba(15,28,35,.78);backdrop-filter:blur(4px);box-shadow:0 2px 10px rgba(0,0,0,.2)}
-.bmap-switch button{padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.75);font-size:0.75rem;font-weight:700;line-height:1.5;transition:background .2s,color .2s}
+.bmap-switch button{padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.75);font-size:0.75rem;font-weight:700;line-height:1.5;transition:background var(--dur-1),color var(--dur-1)}
 .bmap-switch button[aria-pressed="true"]{background:#fff;color:var(--ink)}
 .bmap-switch button:not([aria-pressed="true"]):hover{color:#fff}
 /* 조감(3D) 보기 레이어 */
-.bmap-3d{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .6s ease;z-index:1}
+.bmap-3d{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity var(--dur-3) var(--ease-std);z-index:1}
 .bmap-3d img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;display:block}
 .bmap-3d .bmap-svg{z-index:1}
 .bmap-3d .bmap-pin{z-index:2}
 .bmap-stage[data-view="3d"] .bmap-3d{opacity:1;pointer-events:auto}
-.bmap-2d{position:absolute;inset:0;z-index:1;transition:opacity .45s ease}
-.bmap-north{transition:opacity .45s ease}
+.bmap-2d{position:absolute;inset:0;z-index:1;transition:opacity var(--dur-2) var(--ease-std)}
+.bmap-north{transition:opacity var(--dur-2) var(--ease-std)}
 .bmap-stage[data-view="3d"] .bmap-2d,.bmap-stage[data-view="3d"] .bmap-north{opacity:0;pointer-events:none}
-.bmap-3d .berth3d{fill:rgba(1,171,170,.2);stroke:rgba(255,255,255,.85);stroke-width:1.5;stroke-linejoin:round;pointer-events:auto;cursor:pointer;transition:fill .3s,stroke .3s;vector-effect:non-scaling-stroke}
+.bmap-3d .berth3d{fill:rgba(1,171,170,.2);stroke:rgba(255,255,255,.85);stroke-width:1.5;stroke-linejoin:round;pointer-events:auto;cursor:pointer;transition:fill var(--dur-2),stroke var(--dur-2);vector-effect:non-scaling-stroke}
 .bmap-3d .berth3d.is-active{fill:rgba(1,171,170,.42);stroke:#fff;stroke-width:2;filter:url(#bmapGlow)}
-.bmap-3d .quay3d{stroke:var(--green);stroke-width:4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.95;transition:stroke .3s,opacity .3s}
+.bmap-3d .quay3d{stroke:var(--green);stroke-width:4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.95;transition:stroke var(--dur-2),opacity var(--dur-2)}
 .bmap-3d .quay3d.is-active{stroke:#fff;filter:url(#bmapGlow)}
 .bmap-stage.has-active .bmap-3d .quay3d:not(.is-active){opacity:.55}
 .bmap-3d .gnd{fill:rgba(255,255,255,.18);stroke:rgba(255,255,255,.9);stroke-width:1.5;vector-effect:non-scaling-stroke}
@@ -505,21 +528,21 @@ body.en .map-links .gmap{order:-1}
 .bmap-3d .bmap-pin.pole:hover,.bmap-3d .bmap-pin.pole.is-active{transform:translate(-50%,-100%)}
 /* 조감 보기 등장: 면 → 안벽선 → 기둥·라벨 */
 .bmap-3d .berth3d{stroke-dasharray:3000;stroke-dashoffset:3000;fill-opacity:0}
-.bmap-3d.is-in .berth3d{animation:bmapDraw 1.3s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0) * .16s + .1s)}
+.bmap-3d.is-in .berth3d{animation:bmapDraw calc(var(--dur-3) * 2) var(--ease-out) forwards;animation-delay:calc(var(--i,0) * .16s + .1s)}
 .bmap-3d .quay3d{stroke-dasharray:1200;stroke-dashoffset:1200}
-.bmap-3d.is-in .quay3d{animation:bmapLine 1s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0) * .16s + .8s)}
+.bmap-3d.is-in .quay3d{animation:bmapLine calc(var(--dur-3) * 2) var(--ease-out) forwards;animation-delay:calc(var(--i,0) * .16s + .8s)}
 .bmap-3d .pole{stroke-dasharray:120;stroke-dashoffset:120}
-.bmap-3d.is-in .pole{animation:bmapPole .5s ease-out forwards;animation-delay:calc(var(--i,0) * .16s + 1.2s)}
+.bmap-3d.is-in .pole{animation:bmapPole var(--dur-3) var(--ease-out) forwards;animation-delay:calc(var(--i,0) * .16s + 1.2s)}
 @keyframes bmapPole{to{stroke-dashoffset:0}}
 .bmap-3d .gnd{opacity:0}
-.bmap-3d.is-in .gnd{transition:opacity .4s;transition-delay:calc(var(--i,0) * .16s + 1.2s);opacity:1}
+.bmap-3d.is-in .gnd{transition:opacity var(--dur-2);transition-delay:calc(var(--i,0) * .16s + 1.2s);opacity:1}
 .bmap-3d .bmap-pin.pole{opacity:0;transform:translate(-50%,-70%)}
-.bmap-3d.is-in .bmap-pin.pole{animation:bmapPinUp .5s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0) * .16s + 1.45s)}
+.bmap-3d.is-in .bmap-pin.pole{animation:bmapPinUp var(--dur-3) var(--ease-out) forwards;animation-delay:calc(var(--i,0) * .16s + 1.45s)}
 @keyframes bmapPinUp{to{opacity:1;transform:translate(-50%,-100%)}}
 @media (prefers-reduced-motion:reduce){.bmap-3d .berth3d,.bmap-3d .quay3d,.bmap-3d .pole{stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1;animation:none}.bmap-3d .gnd{opacity:1}.bmap-3d .bmap-pin.pole{opacity:1;transform:translate(-50%,-100%);animation:none}}
 @media (max-width:640px){.bmap-topbar{left:8px;top:8px}.bmap-switch button{padding:3px 10px;font-size:0.6875rem}}
 /* 제원 카드 (지도 위) */
-.bmap-card{position:absolute;left:14px;bottom:14px;width:min(300px,calc(100% - 28px));background:rgba(255,255,255,.96);color:var(--ink);border-radius:8px;box-shadow:0 12px 34px rgba(0,0,0,.32);padding:16px 18px 14px;z-index:3;backdrop-filter:blur(6px);animation:bmapCard .3s cubic-bezier(.2,.7,.2,1)}
+.bmap-card{position:absolute;left:14px;bottom:14px;width:min(300px,calc(100% - 28px));background:rgba(255,255,255,.96);color:var(--ink);border-radius:8px;box-shadow:0 12px 34px rgba(0,0,0,.32);padding:16px 18px 14px;z-index:3;backdrop-filter:blur(6px);animation:bmapCard var(--dur-2) var(--ease-out)}
 @keyframes bmapCard{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .bmap-card .hd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;padding-right:18px}
 .bmap-card .hd h4{font-size:1rem;line-height:1.3}
@@ -530,6 +553,7 @@ body.en .map-links .gmap{order:-1}
 .bmap-card dd small{font-size:.7em;font-weight:400;color:var(--ink-3);margin-left:2px}
 .bmap-card .ft{margin-top:10px;font-size:0.6875rem;color:var(--ink-4)}
 .bmap-card .close{position:absolute;right:8px;top:6px;width:26px;height:26px;border-radius:50%;color:var(--ink-4);font-size:1.0625rem;line-height:1}
+.bmap-card .close{transition:background var(--dur-1) var(--ease-std),color var(--dur-1) var(--ease-std)}
 .bmap-card .close:hover{background:var(--bg-2);color:var(--ink)}
 /* 우측 패널 */
 .bmap-panel{border-left:1px solid var(--line);display:flex;flex-direction:column;background:#fff}
@@ -540,9 +564,9 @@ body.en .map-links .gmap{order:-1}
 .bmap-list{flex:1;display:flex;flex-direction:column}
 .bmap-list li{flex:1;display:flex}
 .bmap-list li + li{border-top:1px solid var(--line)}
-.bmap-list button{flex:1;display:grid;grid-template-columns:14px 1fr;column-gap:12px;align-items:start;align-content:center;width:100%;text-align:left;padding:13px 18px;transition:background .2s}
+.bmap-list button{flex:1;display:grid;grid-template-columns:14px 1fr;column-gap:12px;align-items:start;align-content:center;width:100%;text-align:left;padding:13px 18px;transition:background var(--dur-1)}
 .bmap-list button:hover,.bmap-list button.is-active{background:var(--green-soft)}
-.bmap-list .mk{width:10px;height:10px;border-radius:50%;border:2px solid var(--green);margin-top:7px;transition:background .2s}
+.bmap-list .mk{width:10px;height:10px;border-radius:50%;border:2px solid var(--green);margin-top:7px;transition:background var(--dur-1)}
 .bmap-list button.is-active .mk{background:var(--green)}
 .bmap-list .ttl{display:block;font-weight:700;font-size:0.9375rem;color:var(--ink);line-height:1.4}
 .bmap-list .sub{display:block;grid-column:2;font-size:0.75rem;color:var(--ink-3);line-height:1.5;margin-top:2px}
@@ -599,8 +623,12 @@ table.tbl tr.total td{border-top:2px solid var(--ink);background:var(--bg-2)}
 .faq summary{list-style:none;cursor:pointer;display:flex;gap:16px;align-items:baseline;padding:18px 4px;font-weight:400;color:var(--ink);font-size:1rem}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary .q{font-family:var(--font-latin);color:var(--green-ink);font-weight:400;flex:none;font-size:0.875rem}
-.faq summary::after{content:"+";margin-left:auto;font-family:var(--font-latin);color:var(--ink-4);font-size:1.25rem;line-height:1;flex:none}
-.faq details[open] summary::after{content:"–"}
+.faq .ic{position:relative;margin-left:auto;width:14px;height:14px;flex:none;align-self:center;color:var(--ink-4)}
+.faq .ic i{position:absolute;left:0;top:50%;width:14px;height:1.5px;margin-top:-.75px;background:currentColor;border-radius:1px;transition:transform var(--dur-2) var(--ease-out)}
+.faq .ic i + i{transform:rotate(90deg)}
+.faq details[open] .ic i + i{transform:rotate(0)}
+.faq details[open] .ic{color:var(--green-ink)}
+.faq .a-wrap{overflow:hidden}
 .faq .a{padding:0 4px 20px 38px;color:var(--ink-2);font-size:0.9375rem;max-width:70ch}
 .form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
 .form .full{grid-column:1/-1}
@@ -640,7 +668,7 @@ table.tbl tr.total td{border-top:2px solid var(--ink);background:var(--bg-2)}
 .ptrack ul{display:flex;gap:12px;flex:none;padding-right:12px;animation:pslide 42s linear infinite}
 .ptrack:hover ul,.ptrack:focus-within ul{animation-play-state:paused}
 @keyframes pslide{from{transform:translateX(0)}to{transform:translateX(-100%)}}
-.partners li a{display:flex;align-items:center;justify-content:center;width:196px;height:60px;padding:8px 14px;border:1px solid var(--line-2);border-radius:var(--radius);background:#fff;transition:border-color .2s,box-shadow .2s}
+.partners li a{display:flex;align-items:center;justify-content:center;width:196px;height:60px;padding:8px 14px;border:1px solid var(--line-2);border-radius:var(--radius);background:#fff;transition:border-color var(--dur-1),box-shadow var(--dur-1)}
 .partners li a:hover{border-color:var(--ink);box-shadow:0 2px 10px rgba(31,55,67,.08)}
 .partners img{display:block;max-height:32px;max-width:100%;width:auto;height:auto;object-fit:contain}
 .partners img.tiny{max-height:22px}
@@ -679,6 +707,7 @@ table.tbl tr.total td{border-top:2px solid var(--ink);background:var(--bg-2)}
 .post-nav .lbl{flex:none;min-width:60px;white-space:nowrap;font-size:0.8125rem;color:var(--ink-4)}
 .post-nav .ttl{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .post-nav time{flex:none;font-family:var(--font-latin);font-size:0.8125rem;color:var(--ink-4);font-variant-numeric:tabular-nums}
+.post-nav a .ttl{transition:color var(--dur-1) var(--ease-std)}
 .post-nav a:hover .ttl{color:var(--green-ink)}
 .post-nav .none .ttl{color:var(--ink-4)}
 .post-acts{margin-top:28px;display:flex;gap:10px}
@@ -723,6 +752,7 @@ body.en .site-footer .flogo .logo-en{display:block}
 .itile.lg .ico{width:36px;height:36px}
 .itile.sm{width:48px;height:48px;border-radius:12px;margin-bottom:0}
 .itile.sm .ico{width:26px;height:26px}
+.svc3 > a .itile{transition:background var(--dur-2) var(--ease-std)}
 .svc3 > a:hover .itile{background:var(--green-soft)}
 .svc-side{display:flex;flex-direction:column;gap:14px}
 .steps .itile{margin-bottom:14px}
@@ -741,15 +771,15 @@ body.en .contact-list li{grid-template-columns:196px 1fr}
 @media (max-width:640px){.itile{width:50px;height:50px;border-radius:12px}.itile .ico{width:27px;height:27px}.itile.lg{width:56px;height:56px}.itile.lg .ico{width:30px;height:30px}.contact-list li{grid-template-columns:118px 1fr}body.en .contact-list li{grid-template-columns:1fr;gap:2px}}
 
 /* 스크롤 등장 */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity var(--dur-3) var(--ease-out),transform var(--dur-3) var(--ease-out);transition-delay:var(--d,0s)}
 .reveal.in{opacity:1;transform:none}
-.reveal-kids > *{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal-kids > *{opacity:0;transform:translateY(24px);transition:opacity var(--dur-3) var(--ease-out),transform var(--dur-3) var(--ease-out)}
 .reveal-kids.in > *{opacity:1;transform:none}
 .reveal-kids.in > *:nth-child(2){transition-delay:.12s}
 .reveal-kids.in > *:nth-child(3){transition-delay:.24s}
 .reveal-kids.in > *:nth-child(4){transition-delay:.36s}
 .reveal-kids.in > *:nth-child(5){transition-delay:.48s}
-.sec-head .eyebrow::before{content:"";display:inline-block;width:0;height:2px;background:var(--green);vertical-align:middle;margin-right:0;transition:width .7s cubic-bezier(.2,.7,.2,1) .25s,margin-right .7s cubic-bezier(.2,.7,.2,1) .25s}
+.sec-head .eyebrow::before{content:"";display:inline-block;width:0;height:2px;background:var(--green);vertical-align:middle;margin-right:0;transition:width var(--dur-3) var(--ease-out) .25s,margin-right var(--dur-3) var(--ease-out) .25s}
 .sec-head.in .eyebrow::before{width:28px;margin-right:10px}
 @media (prefers-reduced-motion:reduce){.reveal,.reveal-kids > *,.hero-text > *{opacity:1!important;transform:none!important}.hero-slides .slide.is-active img{transform:scale(1.04)}.stats-band.in .stats > div::before{width:44px}.sec-head .eyebrow::before{width:28px;margin-right:10px}}
 @media print{.reveal,.reveal-kids > *,.hero-text > *{opacity:1!important;transform:none!important}}
@@ -764,7 +794,7 @@ body.en .contact-list li{grid-template-columns:196px 1fr}
 }
 body:not(.en) .en-only{display:none!important}
 body.en .ko-only{display:none!important}
-.en-notice{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);z-index:45;background:var(--ink);color:#fff;font-size:0.8125rem;line-height:1.5;padding:10px 14px 10px 18px;border-radius:var(--radius);box-shadow:0 8px 28px rgba(31,55,67,.28);max-width:min(560px,calc(100vw - 32px));display:flex;gap:12px;align-items:center;opacity:0;pointer-events:none;transition:opacity .35s,transform .35s}
+.en-notice{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);z-index:45;background:var(--ink);color:#fff;font-size:0.8125rem;line-height:1.5;padding:10px 14px 10px 18px;border-radius:var(--radius);box-shadow:0 8px 28px rgba(31,55,67,.28);max-width:min(560px,calc(100vw - 32px));display:flex;gap:12px;align-items:center;opacity:0;pointer-events:none;transition:opacity var(--dur-2),transform var(--dur-2)}
 .en-notice.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 .en-notice button{color:rgba(255,255,255,.7);font-size:1.125rem;line-height:1;padding:4px 6px;cursor:pointer}
 .en-notice button:hover{color:#fff}
@@ -838,7 +868,7 @@ body.en .ko-only{display:none!important}
       <button class="burger" type="button" id="burger" aria-label="메뉴 열기" data-en-aria-label="Open menu" aria-expanded="false"><span></span></button>
     </div>
   </div>
-  <div class="mnav" id="mnav">
+  <div class="mnav" id="mnav"><div class="mnav-in">
     <a href="#/about" data-page="about" data-en="About Us">회사소개</a>
     <a href="#/terminal" data-page="terminal" data-en="Terminal">터미널 안내</a>
     <a href="#/business" data-page="business" data-en="Services">사업 안내</a>
@@ -849,7 +879,7 @@ body.en .ko-only{display:none!important}
         <button type="button" data-lang="en" aria-pressed="false">ENG</button>
       </div>
     </div>
-  </div>
+  </div></div>
 </header>
 
 <div class="en-notice" id="enNotice" role="status"><span>English version - main information is provided in English; some detailed sections remain in Korean while translations are prepared.</span><button type="button" id="enNoticeClose" aria-label="Close">×</button></div>
@@ -919,22 +949,6 @@ body.en .ko-only{display:none!important}
           <span class="more" data-en="Learn more">자세히 보기</span>
         </a>
       </div>
-    </div>
-  </section>
-
-  <!-- 울산항 지금 (울산항만공사_항내 선박위치정보, data/port-now.json) -->
-  <section class="pn-band" id="home-portnow" aria-labelledby="pnH">
-    <div class="wrap pn-row">
-      <div class="pn-t">
-        <h2 id="pnH"><i class="pn-live" id="pnLive" aria-hidden="true"></i><span data-en="Ulsan Port now">울산항 지금</span></h2>
-        <span class="upa-src" id="pnSrc"></span>
-      </div>
-      <dl class="pn-nums">
-        <div><dt data-en="Vessels in port">재항 선박</dt><dd><b id="pnIn">-</b><small class="ko-only">척</small></dd></div>
-        <div><dt data-en="Alongside">부두 접안</dt><dd><b id="pnBerth">-</b><small class="ko-only">척</small></dd></div>
-        <div><dt data-en="At anchor">정박지 대기</dt><dd><b id="pnAnch">-</b><small class="ko-only">척</small></dd></div>
-      </dl>
-      <a class="pn-more" href="#/business/trend"><span data-en="Bulk cargo trends">벌크 화물 동향</span><svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5.5 15.5 10 11 14.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </section>
 
@@ -1968,8 +1982,15 @@ body.en .ko-only{display:none!important}
     var sn = document.querySelector('#p-' + current + ' .subnav');
     return hh + (sn ? sn.offsetHeight : 0) + 12;
   }
-  var current = 'home';
+  var current = 'home', routed = false;
   function route(){
+    var next = parseHash().page;
+    var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (routed && next !== current && document.startViewTransition && !rm){ document.startViewTransition(doRoute); return; }
+    doRoute();
+  }
+  function doRoute(){
+    routed = true;
     var r = parseHash();
     /* 공지 상세 주소에 번호가 없으면 공지사항 목록으로 */
     if (r.page === 'notice' && !r.sec){ location.replace('#/support/notice'); return; }
@@ -2003,6 +2024,7 @@ body.en .ko-only{display:none!important}
     markSubnav();
     updateHeader();
     if (r.page === 'about') initMap();
+    if (window.slideInd) window.slideInd();
   }
   window.addEventListener('hashchange', route);
   route();
@@ -2390,10 +2412,21 @@ body.en .ko-only{display:none!important}
   if (dc){ dc.addEventListener('click', function(){ document.getElementById('draftBar').hidden = true; }); }
 
   /* ---------- 문의 폼 (Netlify Forms 연동, 미리보기에서는 안내만) ---------- */
+  function swapMsg(el, text, ok){
+    el.classList.remove('swap'); void el.offsetWidth;
+    el.textContent = text;
+    if (ok) el.insertAdjacentHTML('afterbegin', '<svg class="ok" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8"/><path d="M4.6 8.3 7 10.6l4.4-4.6"/></svg>');
+    el.classList.add('swap');
+  }
+  function shakeFields(list){
+    for (var i = 0; i < list.length; i++){ var t = list[i]; t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake'); }
+  }
   var form = document.getElementById('contactForm');
   if (form){
     form.addEventListener('submit', function(e){
       e.preventDefault();
+      var bad = form.querySelectorAll('input:invalid, textarea:invalid, select:invalid');
+      if (bad.length){ shakeFields(bad); }
       if (!form.reportValidity()) return;
       var msg = document.getElementById('formMsg');
       var en = body.classList.contains('en');
@@ -2403,7 +2436,8 @@ body.en .ko-only{display:none!important}
         var ok = f.type === 'checkbox' ? f.checked : f.value.trim().length > 0;
         if (!ok){
           msg.style.color = '#B3261E';
-          msg.textContent = en ? 'Please fill in all required fields.' : '필수 항목을 모두 입력해 주세요.';
+          swapMsg(msg, en ? 'Please fill in all required fields.' : '필수 항목을 모두 입력해 주세요.');
+          shakeFields([f.type === 'checkbox' ? (f.closest('label') || f) : f]);
           f.focus();
           return;
         }
@@ -2414,14 +2448,14 @@ body.en .ko-only{display:none!important}
       /* 실제 전송은 넷리파이(…netlify.app) 또는 정식 도메인(supt.co.kr)에서만 - 깃허브 페이지 등 임시 미리보기 호스팅에서는 안내만 */
       var canSend = /^https?:/.test(location.protocol) && !EMBED_BLOCKED && /(\.netlify\.app|^supt\.co\.kr|\.supt\.co\.kr)$/i.test(location.hostname);
       if (!canSend){
-        msg.textContent = en
+        swapMsg(msg, en
           ? 'This preview does not send enquiries. Your entries are retained. Please email sales@supt.co.kr.'
-          : '현재 미리보기에서는 문의가 전송되지 않습니다. 입력 내용은 유지됩니다. sales@supt.co.kr로 문의해 주세요.';
+          : '현재 미리보기에서는 문의가 전송되지 않습니다. 입력 내용은 유지됩니다. sales@supt.co.kr로 문의해 주세요.');
         return;
       }
       var btn = form.querySelector('button[type="submit"]');
       if (btn) btn.disabled = true;
-      msg.textContent = en ? 'Sending…' : '전송 중…';
+      swapMsg(msg, en ? 'Sending…' : '전송 중…');
       var controller = new AbortController();
       var sendTimeout = setTimeout(function(){controller.abort();},15000);
       var data = new URLSearchParams(new FormData(form));
@@ -2429,7 +2463,7 @@ body.en .ko-only{display:none!important}
       fetch(form.getAttribute('action') || '/', { method: 'POST', signal: controller.signal, headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data.toString() })
         .then(function(r){
           if (!r.ok) throw new Error('HTTP ' + r.status);
-          msg.textContent = en ? 'Thank you. Your enquiry has been sent - we will reply within one business day.' : '문의가 접수되었습니다. 영업일 기준 1일 이내에 회신드리겠습니다.';
+          swapMsg(msg, en ? 'Thank you. Your enquiry has been sent - we will reply within one business day.' : '문의가 접수되었습니다. 영업일 기준 1일 이내에 회신드리겠습니다.', true);
           form.reset();
         })
         .catch(function(){
@@ -2451,38 +2485,17 @@ body.en .ko-only{display:none!important}
 @media(max-width:680px){input,select,textarea{font-size:16px!important}.subnav{scrollbar-width:thin}.lang button{min-height:40px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style><style>
-/* ---------- 울산항 공공데이터 연계 (v3.23): 울산항 지금 · 벌크 화물 동향 ---------- */
+/* ---------- 울산항 공공데이터 연계 (v3.23): 벌크 화물 동향 ---------- */
 .upa-src{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--ink-4);font-family:var(--font-latin)}
 .upa-src .ex{margin:0}
-/* 홈: 울산항 지금 */
-.pn-band{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.pn-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px 48px;padding-block:26px}
-.pn-t{display:flex;flex-direction:column;gap:6px}
-.pn-t h2{margin:0;display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
-.pn-live{width:8px;height:8px;border-radius:50%;background:var(--ink-4);flex:none;position:relative}
-.pn-live.on{background:var(--green)}
-.pn-live.on::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--green);opacity:0;animation:pnPing 2.4s ease-out infinite}
-@keyframes pnPing{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.8);opacity:0}}
-.pn-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
-.pn-nums > div{padding:2px 0 2px 28px;border-left:1px solid var(--line-2)}
-.pn-nums dt{font-size:0.8125rem;color:var(--ink-3);margin-bottom:4px}
-.pn-nums dd{margin:0;display:flex;align-items:baseline;gap:4px}
-.pn-nums b{font-family:var(--font-latin);font-variant-numeric:tabular-nums;font-size:1.875rem;font-weight:700;line-height:1;color:var(--ink)}
-.pn-nums small{font-size:0.8125rem;color:var(--ink-3)}
-.pn-more{display:inline-flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--ink);white-space:nowrap;text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:2px}
-.pn-more:hover{border-color:var(--ink)}
-@media (max-width:900px){
-  .pn-row{grid-template-columns:1fr auto;padding-block:22px}
-  .pn-nums{grid-column:1 / -1;grid-row:2}
-  .pn-nums > div:first-child{padding-left:0;border-left:0}
-  .pn-nums > div{padding-left:16px}
-  .pn-nums b{font-size:1.5rem}
-}
 /* 사업 안내: 벌크 화물 동향 */
 .bt-bar{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;margin-bottom:22px}
 .bt-seg{display:inline-flex;border:1px solid var(--line-2);border-radius:999px;padding:2px}
 .bt-seg button{padding:7px 16px;border-radius:999px;font-size:0.8438rem;color:var(--ink-3);background:none;border:0;cursor:pointer}
-.bt-seg button[aria-pressed="true"]{background:var(--dark);color:#fff}
+.bt-seg{position:relative;isolation:isolate}
+.bt-seg button{position:relative;z-index:1;transition:color var(--dur-2) var(--ease-std)}
+.bt-seg button[aria-pressed="true"]{color:#fff}
+.bt-seg .ind{position:absolute;top:2px;bottom:2px;left:0;width:0;border-radius:999px;background:var(--dark);z-index:0;pointer-events:none}
 .bt-sum{display:flex;align-items:baseline;gap:8px 18px;flex-wrap:wrap}
 .bt-sum .m{font-size:0.9375rem;color:var(--ink-3)}
 .bt-sum .v{font-family:var(--font-latin);font-variant-numeric:tabular-nums;font-size:1.75rem;font-weight:700;color:var(--ink);line-height:1.1}
@@ -2495,7 +2508,7 @@ body.en .ko-only{display:none!important}
 .bt-rows li{display:grid;grid-template-columns:7.5em minmax(0,1fr) 6.2em 4.6em;align-items:center;gap:10px;font-size:0.875rem;outline:none}
 .bt-rows .nm{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bt-rows .tr{height:14px;background:var(--bg-3);border-radius:0 4px 4px 0;position:relative}
-.bt-rows .fill{position:absolute;left:0;top:0;bottom:0;background:var(--dark);border-radius:0 4px 4px 0;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+.bt-rows .fill{position:absolute;left:0;top:0;bottom:0;background:var(--dark);border-radius:0 4px 4px 0;transition:width var(--dur-3) var(--ease-out),background var(--dur-1) var(--ease-std)}
 .bt-rows li:hover .fill,.bt-rows li:focus-visible .fill{background:var(--green)}
 .bt-rows .val{text-align:right;font-family:var(--font-latin);font-variant-numeric:tabular-nums;color:var(--ink)}
 .bt-rows .yoy{text-align:right;font-family:var(--font-latin);font-variant-numeric:tabular-nums;color:var(--ink-3);font-size:0.8125rem;white-space:nowrap}
@@ -2506,9 +2519,10 @@ body.en .ko-only{display:none!important}
 .bt-chart .col{fill:var(--gray)}
 .bt-chart .col.last{fill:var(--green)}
 .bt-chart .hit{fill:transparent;cursor:default}
-.bt-chart .hit:hover + .col,.bt-chart g:hover .col{fill:var(--dark)}
+.bt-chart .col{transition:fill var(--dur-1) var(--ease-std)}
+.bt-chart g:hover .col{fill:var(--dark)}
 .bt-chart .lv{fill:var(--ink);font-family:var(--font-latin);font-size:12px;font-weight:700}
-.bt-tip{position:absolute;z-index:3;pointer-events:none;background:var(--dark);color:#fff;border-radius:6px;padding:8px 11px;font-size:0.8125rem;line-height:1.45;box-shadow:0 8px 24px rgba(31,55,67,.2);opacity:0;transform:translate(-50%,-100%);white-space:nowrap;transition:opacity .12s}
+.bt-tip{position:absolute;z-index:3;pointer-events:none;background:var(--dark);color:#fff;border-radius:6px;padding:8px 11px;font-size:0.8125rem;line-height:1.45;box-shadow:0 8px 24px rgba(31,55,67,.2);opacity:0;transform:translate(-50%,-100%);white-space:nowrap;transition:opacity var(--dur-1)}
 .bt-tip.on{opacity:1}
 .bt-tip b{display:block;font-weight:700}
 .bt-tip span{color:var(--on-dark-2)}
@@ -2516,17 +2530,15 @@ body.en .ko-only{display:none!important}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media (max-width:900px){.bt-grid{grid-template-columns:1fr}}
 @media (max-width:560px){.bt-card{padding:18px 14px 14px}.bt-rows li{grid-template-columns:5.2em minmax(0,1fr) 4.2em 4em;gap:8px;font-size:0.8125rem}.bt-rows .yoy{font-size:0.75rem}}
-@media (prefers-reduced-motion:reduce){.pn-live.on::after{animation:none}.bt-rows .fill{transition:none}}
+@media (prefers-reduced-motion:reduce){.bt-rows .fill{transition:none}}
 </style>
 <script>
 /* 울산항 공공데이터 연계 (v3.23)
-   - data/port-now.json   : 울산항 지금(재항·부두 접안·정박지 대기). 울산항만공사_항내 선박위치정보, GitHub Actions가 매시 갱신
-   - data/bulk-trend.json : 울산항 벌크 화물 동향(최근 13개월, 품목별·수출입별). 울산항만공사_울산항 수출입 화물정보, 매일 확인
+   - data/bulk-trend.json : 울산항 벌크 화물 동향(최근 13개월, 품목별·수출입별). 울산항만공사_울산항 수출입 화물정보, GitHub Actions가 매일 갱신
    파일을 못 읽으면 페이지에 넣어 둔 마지막 저장본을 보여줌 */
 (function(){
-  var PN_FB = {"source":"api","updated":"2026-09-27T10:03:26.755Z","inPort":116,"berthed":51,"anchored":26,"positionsAt":"2026-09-27T09:55:07.000Z"};
   var BT_FB = {"source":"api","updated":"2026-09-27T10:03:26.755Z","unit":"t","latest":"2026-08","months":["2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"],"total":{"all":[1107641,968880,1202329,1117764,1048087,917100,814128,1241907,897836,1084271,868707,1051330,887887],"imp":[942425,888199,1028990,1013818,910843,806123,723372,1094219,812832,977558,751132,883329,760108],"exp":[165215,80683,173339,103946,137242,110976,90756,147688,85005,106714,117573,168002,127780]},"items":[{"ko":"광석·정광","en":"Ores & concentrates","all":[309457,286928,350196,339171,215432,271770,190185,317263,214956,286563,207626,254063,236200],"imp":[309457,286928,343152,339171,215432,271770,186214,317263,214956,284571,207626,250890,233047],"exp":[0,0,7044,0,0,0,3971,0,0,1992,0,3173,3153]},{"ko":"석탄·코크스","en":"Coal & coke","all":[33000,158451,123800,194688,93309,100670,122600,133300,157457,123800,141930,55106,78010],"imp":[33000,158451,123800,194688,93309,100670,122600,133300,157457,123800,141930,55106,78010],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"곡물","en":"Grain","all":[159857,47427,156784,188749,125202,106346,123810,183172,103504,180898,108443,192405,112385],"imp":[159857,47427,156784,164074,125202,106346,123810,183172,103504,180898,93247,192405,112385],"exp":[0,0,0,24675,0,0,0,0,0,0,15196,0,0]},{"ko":"사료","en":"Animal feed","all":[50511,39881,24279,51868,90898,15843,61345,100460,6446,34052,61200,38723,19309],"imp":[50511,39881,24279,51868,90898,15843,61345,100460,6446,34052,61200,38723,19309],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"소금·규사","en":"Salt & sand","all":[87806,99146,114055,79537,153911,23124,67628,110464,18163,63930,55213,86329,70375],"imp":[76741,94635,109193,79537,149399,23124,67628,106454,18163,60922,51604,75264,65613],"exp":[11065,4512,4862,0,4512,0,0,4010,0,3007,3609,11065,4762]},{"ko":"목재·우드칩","en":"Timber & wood chips","all":[118238,41468,82687,39484,76258,78165,36021,33467,144474,115708,39548,66505,74745],"imp":[118238,41468,82687,39484,76258,78165,36021,33467,144474,115708,39548,66505,74745],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"비료","en":"Fertiliser","all":[80607,77405,51655,17470,108006,55032,46612,82512,41834,73338,29515,67827,38388],"imp":[54584,77405,48623,17470,80306,45433,46612,81012,37797,71155,27997,61305,34876],"exp":[26023,0,3032,0,27700,9599,0,1500,4037,2184,1518,6522,3512]},{"ko":"화학제품","en":"Chemicals","all":[70996,52689,105573,45463,56075,78975,82152,74020,55340,64346,24075,90124,82279],"imp":[916,9615,0,0,4950,10461,7955,13550,5215,4957,7011,6600,0],"exp":[70080,43074,105573,45463,51125,68513,74197,60470,50125,59390,17064,83524,82279]},{"ko":"펄프·종이","en":"Pulp & paper","all":[42733,23462,38784,51235,24582,42944,30109,37105,44733,24591,42411,45242,43597],"imp":[42733,23462,38784,51235,24582,42944,30109,37105,44733,24591,42411,45242,43597],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"철강","en":"Steel","all":[86691,69196,86651,53283,57329,42504,41695,109056,49047,60436,84663,90644,68988],"imp":[50437,55626,43111,32744,43626,20384,34946,43057,33618,34351,20774,50583,45202],"exp":[36253,13570,43540,20539,13703,22120,6748,65999,15430,26085,63888,40061,23786]},{"ko":"비철금속","en":"Non-ferrous metals","all":[3750,10132,16563,0,32127,6645,4997,3293,4469,6240,8297,10956,11223],"imp":[3750,10132,16563,0,5819,6645,4997,3293,4469,6240,4646,4646,11223],"exp":[0,0,0,0,26307,0,0,0,0,0,3651,6310,0]},{"ko":"설탕","en":"Sugar","all":[42000,42000,42000,42000,0,84000,0,42000,42000,35000,42000,35000,42000],"imp":[42000,42000,42000,42000,0,84000,0,42000,42000,35000,42000,35000,42000],"exp":[0,0,0,0,0,0,0,0,0,0,0,0,0]},{"ko":"기계·설비","en":"Machinery & equipment","all":[18436,18112,8067,13816,10763,9082,4378,13212,11714,12179,9500,14016,8380],"imp":[201,1169,14,1547,1057,338,1135,86,0,1313,638,1060,101],"exp":[18235,16944,8053,12269,9706,8744,3244,13126,11714,10866,8862,12957,8280]},{"ko":"기타","en":"Others","all":[3559,2583,1235,1000,4195,2000,2596,2583,3699,3190,14286,4390,2008],"imp":[0,0,0,0,5,0,0,0,0,0,10500,0,0],"exp":[3559,2583,1235,1000,4189,2000,2596,2583,3699,3190,3785,4390,2008]}],"records":4710};
-  var pn = null, bt = null, dir = 'all';
+  var bt = null, dir = 'all';
   var EN = function(){ return document.body.classList.contains('en'); };
   function load(url, fb){
     if (!window.fetch) return Promise.resolve(fb);
@@ -2542,17 +2554,6 @@ body.en .ko-only{display:none!important}
     if (!o || o.source !== 'api') return '<span class="ex">' + (EN() ? 'Sample' : '예시') + '</span>' + (EN() ? 'open data not yet connected' : '공공데이터 연결 전');
     return (EN() ? 'Ulsan Port Authority open data' : '울산항만공사 공공데이터') + (withTime ? ' · ' + stamp(o.updated) + (EN() ? ' KST' : ' 기준') : '');
   }
-  function fresh(o){ return o && o.source === 'api' && (Date.now() - new Date(o.positionsAt || o.updated).getTime()) < 3 * 3600e3; }
-
-  /* 울산항 지금 */
-  function renderPN(){
-    if (!pn || !document.getElementById('pnIn')) return;
-    var set = function(id, v){ document.getElementById(id).textContent = (v === null || v === undefined || isNaN(v)) ? '-' : Number(v).toLocaleString('en-US'); };
-    set('pnIn', pn.inPort); set('pnBerth', pn.berthed); set('pnAnch', pn.anchored);
-    document.getElementById('pnSrc').innerHTML = srcHTML({ source: pn.source, updated: pn.positionsAt || pn.updated }, true);
-    document.getElementById('pnLive').classList.toggle('on', fresh(pn));
-  }
-
   /* 벌크 화물 동향 */
   function tons(v, short){
     if (EN()) return v >= 1e6 ? (v / 1e6).toFixed(2) + 'M t' : Math.round(v / 1e3).toLocaleString('en-US') + 'k t';
@@ -2571,7 +2572,7 @@ body.en .ko-only{display:none!important}
     var tot = bt.total[dir], cur = tot[L], prev = P !== null ? tot[P] : null, dp = pct(cur, prev);
     document.getElementById('btSum').innerHTML =
       '<span class="m">' + monthName(bt.months[L]) + (EN() ? ' total' : ' 합계') + '</span>' +
-      '<span class="v">' + tons(cur) + '</span>' +
+      '<span class="v" aria-label="' + tons(cur) + '">' + tons(cur).split('').map(function(c, i){ return '<span class="ch" aria-hidden="true" style="animation-delay:' + (i * 28) + 'ms">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</span>' +
       '<span class="d">' + (EN() ? 'vs ' + monthName(bt.months[P] || bt.months[0]) + ' ' : '전년 동월 대비 ') + pctTxt(dp) + '</span>';
     // 품목별(이번 달, 큰 순서 6개 + 나머지)
     var rows = bt.items.map(function(it){ return { ko: it.ko, en: it.en, v: it[dir][L], p: P !== null ? it[dir][P] : null }; })
@@ -2613,11 +2614,12 @@ body.en .ko-only{display:none!important}
   document.addEventListener('mouseover', function(e){
     var gEl = e.target.closest && e.target.closest('#btChart g[data-i]'), tip = document.getElementById('btTip');
     if (!tip) return;
-    if (!gEl){ tip.classList.remove('on'); return; }
+    if (!gEl){ tip.classList.remove('on', 'travel'); return; }
     var i = +gEl.getAttribute('data-i'), tot = bt.total[dir], p = i - 12 >= 0 ? tot[i - 12] : null;
     tip.innerHTML = '<b>' + monthName(bt.months[i]) + '</b>' + tot[i].toLocaleString('en-US') + (EN() ? ' t' : ' 톤') + (p !== null ? '<br><span>' + (EN() ? 'YoY ' : '전년 동월 대비 ') + pctTxt(pct(tot[i], p)) + '</span>' : '');
     var card = tip.parentNode.getBoundingClientRect(), r = gEl.querySelector('.col').getBoundingClientRect();
     tip.style.left = (r.left - card.left + r.width / 2) + 'px'; tip.style.top = (r.top - card.top - 8) + 'px';
+    if (tip.classList.contains('on')) tip.classList.add('travel');
     tip.classList.add('on');
   });
   document.addEventListener('click', function(e){
@@ -2626,12 +2628,118 @@ body.en .ko-only{display:none!important}
     document.querySelectorAll('.bt-seg button').forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
     renderBT();
   });
-  window.renderUpa = function(){ renderPN(); renderBT(); };
-  load('data/port-now.json', PN_FB).then(function(d){ pn = d; renderPN(); });
+  window.renderUpa = function(){ renderBT(); };
   load('data/bulk-trend.json', BT_FB).then(function(d){ bt = d; renderBT(); });
-  // 탭을 오래 열어 두면 30분마다 울산항 지금을 다시 읽음
-  setInterval(function(){ if (!document.hidden) load('data/port-now.json', pn).then(function(d){ pn = d; renderPN(); }); }, 30 * 60e3);
 })();
 </script>
 
+<style>
+/* ---------- v3.25 모션 (transitions.dev 무료 레시피 이식) ---------- */
+/* Learn more hover: 꺾쇠가 밀리며 화살표 꼬리가 생김 */
+.svc3 .more{position:relative;padding-right:22px}
+.svc3 .more::before{content:"";position:absolute;right:3px;top:50%;width:10px;height:1.5px;background:currentColor;transform:translateY(-50%) scaleX(0);transform-origin:right;transition:transform var(--dur-2) var(--ease-out)}
+.svc3 .more::after{content:"";position:absolute;right:6px;top:50%;width:7px;height:7px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:translate(0,-50%) rotate(45deg);transition:transform var(--dur-2) var(--ease-out)}
+.svc3 > a:hover .more::before{transform:translateY(-50%) scaleX(1)}
+.svc3 > a:hover .more::after{transform:translate(3px,-50%) rotate(45deg)}
+
+/* Tabs sliding: 표시가 움직이는 동안만 transition */
+.ind.ready{transition:transform var(--dur-2) var(--ease-out),width var(--dur-2) var(--ease-out)}
+
+/* Error state shake */
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+.form .shake{animation:shake var(--dur-2) var(--ease-out) both}
+/* Text states swap */
+@keyframes swapIn{from{opacity:0;filter:blur(4px);transform:translateY(4px)}to{opacity:1;filter:none;transform:none}}
+#formMsg.swap{animation:swapIn var(--dur-2) var(--ease-out) both}
+/* Success check */
+#formMsg .ok{display:inline-block;width:16px;height:16px;margin-right:6px;vertical-align:-3px}
+#formMsg .ok circle{fill:var(--green)}
+#formMsg .ok path{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:12;stroke-dashoffset:12;animation:draw var(--dur-3) var(--ease-out) .1s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* Number pop-in: 자리별로 흐림에서 또렷하게 */
+.bt-sum .v .ch{display:inline-block;animation:popIn var(--dur-3) var(--ease-out) both}
+@keyframes popIn{from{opacity:0;filter:blur(6px);transform:translateY(.35em)}to{opacity:1;filter:none;transform:none}}
+/* Tooltip: 늦게 나타나고, 막대 사이는 미끄러지고, 사라질 땐 바로 */
+.bt-tip{transition:opacity var(--dur-1) var(--ease-std) 80ms}
+.bt-tip.travel{transition:opacity var(--dur-1) var(--ease-std),left var(--dur-2) var(--ease-out),top var(--dur-2) var(--ease-out)}
+.bt-tip:not(.on){transition:opacity var(--dur-1) var(--ease-in)}
+
+/* Toast open/close */
+.en-notice{transform:translate(-50%,14px) scale(.97);filter:blur(3px);transition:opacity var(--dur-1) var(--ease-in),transform var(--dur-1) var(--ease-in),filter var(--dur-1) var(--ease-in)}
+.en-notice.show{transform:translate(-50%,0) scale(1);filter:none;transition:opacity var(--dur-2) var(--ease-out),transform var(--dur-2) var(--ease-out),filter var(--dur-2) var(--ease-out)}
+
+/* Page transition */
+.site-header{view-transition-name:site-header}
+::view-transition-old(root){animation:vtOut var(--dur-1) var(--ease-in) both}
+::view-transition-new(root){animation:vtIn var(--dur-2) var(--ease-out) both}
+@keyframes vtOut{to{opacity:0}}
+@keyframes vtIn{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
+
+@media (prefers-reduced-motion:reduce){.ind.ready,.mnav,.mnav-in > *,.burger span,.burger span::before,.burger span::after,.faq .ic i,.en-notice,.bt-tip{transition:none!important}.form .shake,#formMsg.swap,.bt-sum .v .ch{animation:none!important}#formMsg .ok path{stroke-dashoffset:0;animation:none}}
+</style>
+
+<script>
+/* v3.25 모션: 미끄러지는 선택 표시(Tabs sliding)·FAQ 아코디언 */
+(function(){
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* 선택 표시: 하위 메뉴 밑줄, KOR/ENG, 화물 동향 구분 */
+  var GROUPS = [
+    { sel: '.subnav ul', item: 'a.on' },
+    { sel: '.lang', item: 'button[aria-pressed="true"]' },
+    { sel: '.bt-seg', item: 'button[aria-pressed="true"]' }
+  ];
+  function place(box, itemSel){
+    var ind = box.querySelector(':scope > .ind');
+    if (!ind){ ind = document.createElement('i'); ind.className = 'ind'; ind.setAttribute('aria-hidden', 'true'); box.appendChild(ind); }
+    var it = box.querySelector(itemSel);
+    if (!it || !box.offsetParent){ return; }
+    var x = it.offsetLeft, w = it.offsetWidth;
+    ind.style.width = w + 'px';
+    ind.style.transform = 'translateX(' + x + 'px)';
+    if (!ind.classList.contains('ready') && !RM) requestAnimationFrame(function(){ ind.classList.add('ready'); });
+  }
+  function all(){
+    GROUPS.forEach(function(g){ document.querySelectorAll(g.sel).forEach(function(b){ place(b, g.item); }); });
+  }
+  window.slideInd = all;
+  var queued = false;
+  function soon(){ if (queued) return; queued = true; requestAnimationFrame(function(){ queued = false; all(); }); }
+  var mo = new MutationObserver(soon);
+  GROUPS.forEach(function(g){ document.querySelectorAll(g.sel).forEach(function(b){ mo.observe(b, { subtree: true, attributes: true, attributeFilter: ['class', 'aria-pressed'], childList: true, characterData: true }); }); });
+  document.querySelectorAll('section.page').forEach(function(p){ mo.observe(p, { attributes: true, attributeFilter: ['hidden'] }); });
+  mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });  /* 국문·영문 전환 시 글자 폭 변화 */
+  window.addEventListener('resize', soon);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
+  all();
+
+  /* FAQ 아코디언: 열고 닫을 때 높이를 부드럽게 */
+  document.querySelectorAll('.faq details').forEach(function(d){
+    var sum = d.querySelector('summary'), a = d.querySelector('.a');
+    if (!sum || !a) return;
+    var ic = document.createElement('span'); ic.className = 'ic'; ic.setAttribute('aria-hidden', 'true'); ic.innerHTML = '<i></i><i></i>';
+    sum.appendChild(ic);
+    var wrap = document.createElement('div'); wrap.className = 'a-wrap'; a.parentNode.insertBefore(wrap, a); wrap.appendChild(a);
+    var anim = null;
+    sum.addEventListener('click', function(e){
+      if (RM || !wrap.animate) return;
+      e.preventDefault();
+      if (anim) anim.cancel();
+      if (!d.open){
+        d.open = true;
+        var h = wrap.offsetHeight;
+        anim = wrap.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 300, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        anim.onfinish = function(){ anim = null; };
+      } else {
+        d.classList.add('closing');
+        var h2 = wrap.offsetHeight;
+        d.querySelector('.ic i + i').style.transform = 'rotate(90deg)';
+        anim = wrap.animate([{ height: h2 + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 220, easing: 'cubic-bezier(.4,0,1,1)' });
+        anim.onfinish = function(){ d.open = false; d.classList.remove('closing'); d.querySelector('.ic i + i').style.transform = ''; anim = null; };
+      }
+    });
+  });
+})();
+</script>
 </body></html>
