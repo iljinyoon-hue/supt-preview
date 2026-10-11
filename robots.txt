@@ -1,2 +1,5 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://www.supt.co.kr/sitemap.xml
