@@ -1503,6 +1503,7 @@ body.en .ko-only{display:none!important}
   <nav class="subnav" aria-label="고객지원 하위 메뉴" data-en-aria-label="Customer Support sections">
     <ul>
       <li><a href="#/support/notice" data-en="Notices">공지사항</a></li>
+      <li><a href="#/support/press" data-en="News">언론보도</a></li>
       <li><a href="#/support/rates" data-en="Tariff">요율 안내</a></li>
       <li><a href="#/support/forms" data-en="Forms">자료실</a></li>
       <li><a href="#/support/faq" data-en="FAQ">자주 묻는 질문</a></li>
@@ -1530,6 +1531,21 @@ body.en .ko-only{display:none!important}
         <div class="ko-only"><b>항만안전특별법에 따른 안전교육 안내</b> - 부두에 출입하는 모든 작업자·방문자는 안전교육을 이수해야 합니다.<br>· 신규 안전교육: 신규 종사자 7시간(작업 투입 전) · 정기 안전교육: 재직자 4시간(매년) · 기초 안전교육: 일용직·방문자 10분(회당, 유효기간 7일)<br>· <a href="https://www.kptiedu.kr/user/Main.do" target="_blank" rel="noopener" style="color:var(--green-ink);font-weight:400">항만안전교육포털 ↗</a>에서 온라인 이수 후 이수증을 제시해 주십시오.</div>
         <div class="en-only"><b>Port safety training (Port Safety Special Act)</b> - all workers and visitors entering the terminal must complete safety training: initial <span class="nb">7 h</span> (new workers), annual <span class="nb">4 h</span> (existing workers), basic <span class="nb">10 min</span> per visit (day workers and visitors, valid <span class="nb">7 days</span>). Complete it online at the <a href="https://www.kptiedu.kr/user/Main.do" target="_blank" rel="noopener" style="color:var(--green-ink);font-weight:400">Port Safety Education Portal ↗</a> and present the certificate.</div>
       </div>
+    </div>
+  </section>
+
+  <!-- 언론보도: 기사 본문·사진은 옮기지 않고 제목·언론사·날짜·원문 링크만 게시. 데이터는 스크립트의 PRESS 목록 -->
+  <section class="sec anchor alt" id="support-press">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">In the News</span>
+        <h2 data-en="In the News">언론보도</h2>
+        <p class="lead ko-only">제목이나 원문 보기를 누르면 해당 언론사 기사로 이동합니다.</p>
+        <p class="lead en-only">Select a headline to read the original article on the publisher's website.</p>
+      </div>
+      <ul class="press-list" id="pressList"></ul>
+      <p class="press-note ko-only">※ 게시된 기사의 저작권은 각 언론사에 있으며, 제목을 누르면 해당 언론사 사이트로 이동합니다.</p>
+      <p class="press-note en-only">* Copyright of each article belongs to its publisher; headlines link to the original.</p>
     </div>
   </section>
 
@@ -2754,6 +2770,57 @@ body.en .ko-only{display:none!important}
       }
     });
   });
+})();
+</script>
+<style>
+/* v3.30 언론보도 */
+.press-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.press-list li{display:grid;grid-template-columns:188px minmax(0,1fr) auto;gap:16px 28px;align-items:center;padding:24px 0;border-bottom:1px solid var(--line)}
+.press-thumb{display:block;width:188px;aspect-ratio:4/3;border-radius:4px;overflow:hidden;background:var(--dark)}
+.press-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.press-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:0.875rem;color:var(--ink-4)}
+.press-src{display:inline-block;padding:2px 8px;border:1px solid var(--line-2,var(--line));border-radius:3px;color:var(--ink);font-weight:700;font-size:0.8125rem}
+.press-date{font-family:var(--font-latin);font-variant-numeric:tabular-nums}
+.press-title{margin:0;font-size:1.125rem;font-weight:700;line-height:1.45}
+.press-title a{color:var(--ink);text-decoration:none}
+.press-title a:hover,.press-title a:focus-visible{color:var(--green-ink);text-decoration:underline;text-underline-offset:3px}
+.press-title .ext{font-size:.85em;color:var(--green-ink);margin-left:4px}
+.press-sum{margin:8px 0 0;color:var(--ink-3);font-weight:300;font-size:0.9688rem}
+.press-acts .btn{padding:10px 18px}
+.press-note{margin-top:22px;font-size:0.8125rem;color:var(--ink-4)}
+@media (max-width:760px){.press-list li{grid-template-columns:110px minmax(0,1fr);gap:12px 16px;align-items:start}.press-thumb{width:110px}.press-acts{grid-column:1 / -1}.press-title{font-size:1rem}}
+</style>
+<script>
+/* 언론보도 목록 (v3.30)
+   새 기사 추가: 아래 PRESS 맨 앞에 한 건 추가. 제목은 기사 제목 그대로, 요약은 기사 문장을 옮기지 않고 직접 쓴 1줄.
+   썸네일은 당사 사진만(assets/press/), 기사에 실린 사진·언론사 로고는 쓰지 않음 */
+(function(){
+  var PRESS = [
+    { date: '2026-10-27', src: { ko: '연합뉴스', en: 'Yonhap News' },
+      title: '울산항만공사, 울산항 6·7·8부두 신규 운영사 선정',
+      url: 'https://www.yna.co.kr/view/AKR20261027129600057',
+      sum: { ko: '울산항만공사와 세방울산부두운영(주)가 10월 27일 울산항 6,7,8부두 4개 선석 부두임대차 계약을 체결하고 11월 1일부터 운영한다는 소식이 보도되었습니다.',
+             en: 'Coverage of the berth lease agreement for four berths at Ulsan Port Berths 6, 7 and 8, signed by Ulsan Port Authority and Sebang Ulsan Port Terminal on 27 October, with operations starting on 1 November.' },
+      img: 'assets/press/thumb-261027.jpg' }
+  ];
+  function esc(t){ return String(t).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function render(){
+    var box = document.getElementById('pressList'); if (!box) return;
+    var en = document.body.classList.contains('en');
+    box.innerHTML = PRESS.map(function(a){
+      var d = a.date.replace(/-/g, '.'), src = en ? a.src.en : a.src.ko, sum = en ? a.sum.en : a.sum.ko;
+      var lbl = (en ? 'Read the original article on ' : '원문 보기: ') + src + (en ? ' (opens in a new window)' : ' (새 창)');
+      return '<li><a class="press-thumb" href="' + esc(a.url) + '" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="' + esc(a.img) + '" alt="" loading="lazy" decoding="async" width="480" height="360"></a>' +
+        '<div><div class="press-meta"><span class="press-src">' + esc(src) + '</span><span class="press-date">' + d + '</span></div>' +
+        '<h3 class="press-title"><a href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.title) + '</a></h3>' +
+        '<p class="press-sum">' + esc(sum) + '</p></div>' +
+        '<div class="press-acts"><a class="btn" href="' + esc(a.url) + '" target="_blank" rel="noopener" aria-label="' + esc(lbl) + '">' + (en ? 'Read article' : '원문 보기') + '</a></div></li>';
+    }).join('');
+  }
+  var lastEn = null;
+  function sync(){ var en = document.body.classList.contains('en'); if (en !== lastEn){ lastEn = en; render(); } }
+  sync();
+  new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>
 </body></html>
