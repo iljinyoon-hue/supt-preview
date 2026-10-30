@@ -16,7 +16,7 @@
 <meta property="og:title" content="세방울산부두운영(주) | 울산항 6·7·8부두 하역 부두운영사">
 <meta property="og:description" content="울산항 6·7·8부두 부두운영사 세방울산부두운영(주). 울산항 하역, 울산 벌크화물, 중량물 하역, 울산항 야적장 보관과 연계 운송을 한 곳에서 맡습니다. 문의 sales@supt.co.kr, 052-227-6385">
 <meta property="og:url" content="https://www.supt.co.kr/">
-<meta property="og:image" content="https://www.supt.co.kr/assets/hero.jpg">
+<meta property="og:image" content="https://www.supt.co.kr/assets/video/hero-poster.jpg">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"세방울산부두운영","alternateName":["세방울산부두운영(주)","Sebang Ulsan Port Terminal"],"url":"https://www.supt.co.kr/"}</script>
@@ -907,6 +907,11 @@ body.en .ko-only{display:none!important}
     <div class="hero-slides" aria-hidden="true">
       <div class="slide is-active"><img src="assets/hero.jpg" alt="" width="1920" height="1438" fetchpriority="high" decoding="async"></div>
       <div class="slide"><img src="assets/terminal.jpg" alt="" width="1920" height="1438" loading="lazy" decoding="async"></div>
+      <!-- v3.31 메인 배경 영상 (2026.10 울산항 6·7·8부두 드론 촬영, 23초 반복). 동작 줄이기·데이터 절약 설정 시 재생 안 함 -->
+      <video class="hero-video" muted loop playsinline preload="none" poster="assets/video/hero-poster.jpg" width="1920" height="1080">
+        <source src="assets/video/hero-720.mp4" type="video/mp4" media="(max-width: 900px)">
+        <source src="assets/video/hero-1080.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="wrap">
@@ -967,7 +972,7 @@ body.en .ko-only{display:none!important}
 
   <!-- 핵심 수치 (스크롤 진입 시 카운트업) -->
   <section class="stats-band" id="home-stats">
-    <img class="bg" src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438" loading="lazy" decoding="async">
+    <img class="bg" src="assets/media/stats-bg.jpg" alt="" aria-hidden="true" width="1920" height="1438" loading="lazy" decoding="async">
     <div class="wrap">
       <div class="sec-head" style="margin-bottom:8px">
         <span class="eyebrow">Ulsan Port Berths 6·7·8</span>
@@ -1012,7 +1017,7 @@ body.en .ko-only{display:none!important}
      ====================================================== -->
 <section class="page" id="p-about" hidden>
   <div class="page-head photo">
-    <img class="bg about-photo" src="assets/about.jpg" alt="" aria-hidden="true" width="1920" height="900" decoding="async" loading="lazy">
+    <img class="bg about-photo" src="assets/media/about-head.jpg" alt="" aria-hidden="true" width="1920" height="900" decoding="async" loading="lazy">
     <div class="wrap">
       <span class="eyebrow">About Us</span>
       <h1 data-en="About Us">회사소개</h1>
@@ -1183,7 +1188,7 @@ body.en .ko-only{display:none!important}
      ====================================================== -->
 <section class="page" id="p-terminal" hidden>
   <div class="page-head photo">
-    <img class="bg" src="assets/terminal.jpg" alt="" aria-hidden="true" width="1920" height="1438" decoding="async" loading="lazy">
+    <img class="bg" src="assets/media/terminal-head.jpg" alt="" aria-hidden="true" width="1920" height="1438" decoding="async" loading="lazy">
     <div class="wrap">
       <span class="eyebrow">Terminal</span>
       <h1 data-en="Terminal Overview">터미널 안내</h1>
@@ -1350,7 +1355,7 @@ body.en .ko-only{display:none!important}
      ====================================================== -->
 <section class="page" id="p-business" hidden>
   <div class="page-head photo">
-    <img class="bg" src="assets/business.jpg" alt="" aria-hidden="true" width="1920" height="659" decoding="async" loading="lazy">
+    <img class="bg" src="assets/media/business-head.jpg" alt="" aria-hidden="true" width="1920" height="659" decoding="async" loading="lazy">
     <div class="wrap">
       <span class="eyebrow">Services</span>
       <h1 data-en="Services">사업 안내</h1>
@@ -1383,6 +1388,9 @@ body.en .ko-only{display:none!important}
             <li data-en="Tally and damage-free handling standards by cargo type">화종별 검수·무손상 하역 기준 운영</li>
             <li data-en="Safety-first operation with auto hooks and smart airbags">자동 후크·스마트 에어백을 활용한 안전 우선 작업</li>
           </ul>
+          <figure class="svc-media">
+            <img src="assets/media/stevedoring.jpg" alt="이동식 크레인으로 본선 화물창의 톤백을 양하하는 작업 장면" data-en-alt="Jumbo bags being discharged from the hold by mobile crane" width="1600" height="900" loading="lazy" decoding="async">
+          </figure>
         </div>
       </div>
 
@@ -1397,6 +1405,9 @@ body.en .ko-only{display:none!important}
             <li data-en="Export staging ahead of vessel arrival to cut loading time">선적 전 야적 대기로 본선 적하 시간 단축</li>
             <li data-en="Inventory reports and free time management">재고 현황 보고 및 무료장치기간(free time) 관리</li>
           </ul>
+          <figure class="svc-media">
+            <img src="assets/media/storage.jpg" alt="야적장에 덮개를 씌워 보관 중인 톤백 화물과 접안 선박" data-en-alt="Covered jumbo bags stacked in the yard beside a berthed vessel" width="1280" height="720" loading="lazy" decoding="async">
+          </figure>
         </div>
       </div>
 
@@ -1411,6 +1422,9 @@ body.en .ko-only{display:none!important}
             <li data-en="Heavy and long cargo transport with SPMTs and other specialised heavy equipment">SPMT 등 전문 중장비를 활용한 중량·장척 화물 운송</li>
             <li data-en="Coordination with Sebang branches at other Korean ports">세방㈜ 전국 지사·타 항만과의 연계</li>
           </ul>
+          <figure class="svc-media">
+            <img src="assets/media/transport.jpg" alt="부두에서 지게차로 톤백 화물을 화물차에 상차하는 장면" data-en-alt="Forklift loading jumbo bags onto a truck at the quay" width="1400" height="788" loading="lazy" decoding="async">
+          </figure>
         </div>
       </div>
 
@@ -2821,6 +2835,39 @@ body.en .ko-only{display:none!important}
   function sync(){ var en = document.body.classList.contains('en'); if (en !== lastEn){ lastEn = en; render(); } }
   sync();
   new MutationObserver(sync).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
+<style>
+/* v3.31 영상 */
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;opacity:0;transition:opacity 1.2s var(--ease-std);pointer-events:none}
+.hero.has-video .hero-video{opacity:1}
+.hero.has-video .hero-dots button[data-slide]{display:none}
+.svc-media{margin:26px 0 0;max-width:720px}
+.svc-media video,.svc-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:var(--bg-3)}
+.svc-media figcaption{margin-top:10px;font-size:0.8125rem;color:var(--ink-4)}
+@media (prefers-reduced-motion:reduce){.hero-video{display:none}}
+</style>
+<script>
+/* v3.31 영상 재생: 동작 줄이기·데이터 절약이면 재생하지 않고 사진을 그대로 보여 줌 */
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var save = navigator.connection && navigator.connection.saveData;
+  var hero = document.getElementById('hero'), hv = hero && hero.querySelector('.hero-video');
+  if (hv && !reduce && !save){
+    hv.preload = 'auto';
+    hv.addEventListener('playing', function(){ hero.classList.add('has-video'); var pb = hero.querySelector('.hero-pause'); if (pb){ pb.setAttribute('aria-label', document.body.classList.contains('en') ? 'Pause background video' : '배경 영상 정지'); } });
+    var p = hv.play(); if (p && p.catch) p.catch(function(){});
+    hero.addEventListener('click', function(e){
+      var pb = e.target.closest && e.target.closest('.hero-pause'); if (!pb) return;
+      if (pb.getAttribute('aria-pressed') === 'true') hv.pause(); else { var q = hv.play(); if (q && q.catch) q.catch(function(){}); }
+    });
+    document.addEventListener('visibilitychange', function(){ if (document.hidden) hv.pause(); else if (hero.querySelector('.hero-pause[aria-pressed="true"]') === null){ var q = hv.play(); if (q && q.catch) q.catch(function(){}); } });
+  }
+  /* 본문 영상: 화면에 보일 때만 재생 */
+  var vids = document.querySelectorAll('video.auto-video');
+  if (!vids.length || reduce || save || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(es){ es.forEach(function(en){ var v = en.target; if (en.isIntersecting){ v.preload = 'auto'; var q = v.play(); if (q && q.catch) q.catch(function(){}); } else v.pause(); }); }, { threshold: 0.35 });
+  vids.forEach(function(v){ io.observe(v); });
 })();
 </script>
 </body></html>
