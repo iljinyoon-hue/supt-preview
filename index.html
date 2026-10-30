@@ -307,7 +307,10 @@ table.tbl caption{caption-side:bottom;text-align:left;font-size:0.8125rem;color:
 .hero-slides .slide:nth-child(2).is-active img{animation-name:kb-b}
 @keyframes kb-a{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.16) translate3d(-1.6%,-1.2%,0)}}
 @keyframes kb-b{from{transform:scale(1.06) translate3d(1.2%,0,0)}to{transform:scale(1.17) translate3d(-0.6%,1.4%,0)}}
-.hero-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(31,55,67,.92) 0%,rgba(31,55,67,.82) 36%,rgba(31,55,67,.38) 66%,rgba(31,55,67,.14) 100%),linear-gradient(180deg,rgba(31,55,67,.55) 0%,rgba(31,55,67,0) 30%,rgba(31,55,67,.35) 100%)}
+.hero-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(31,55,67,.50) 0%,rgba(31,55,67,.34) 34%,rgba(31,55,67,.06) 60%,rgba(31,55,67,0) 100%),linear-gradient(180deg,rgba(31,55,67,.34) 0%,rgba(31,55,67,0) 20%,rgba(31,55,67,0) 74%,rgba(31,55,67,.28) 100%)}
+/* v3.33 음영을 옅게 하고 대신 글자 그림자로 가독성 확보 */
+.hero h1{text-shadow:0 2px 18px rgba(10,24,32,.55),0 1px 3px rgba(10,24,32,.45)!important}
+.hero .lead{color:#fff!important;font-weight:400!important;text-shadow:0 1px 12px rgba(10,24,32,.7),0 1px 2px rgba(10,24,32,.55)}
 .hero .wrap{position:relative;width:100%;display:grid;grid-template-columns:minmax(0,780px) 1fr;gap:40px;align-items:center;padding-block:clamp(56px,7vw,96px)}
 .hero .eyebrow{color:var(--on-dark-2)}
 .hero h1{color:#fff;font-size:clamp(2rem,4vw,3.375rem);letter-spacing:-.015em;line-height:1.18;text-shadow:0 1px 2px rgba(0,0,0,.18)}
@@ -339,7 +342,7 @@ body.en .hero h1{font-size:clamp(1.625rem,3.2vw,2.75rem)}
 @media (max-width:900px){
   .hero{min-height:clamp(480px,72vh,680px)}
   .hero .wrap{grid-template-columns:1fr;gap:0}
-  .hero-shade{background:linear-gradient(180deg,rgba(31,55,67,.9) 0%,rgba(31,55,67,.86) 100%)}
+  .hero-shade{background:linear-gradient(180deg,rgba(31,55,67,.30) 0%,rgba(31,55,67,.50) 30%,rgba(31,55,67,.52) 70%,rgba(31,55,67,.34) 100%)}
   .hero-photo{object-position:62% 50%}
   }
 .notice-strip{background:var(--bg-2);border-bottom:1px solid var(--line)}
@@ -909,7 +912,7 @@ body.en .ko-only{display:none!important}
       <div class="slide"><img src="assets/terminal.jpg" alt="" width="1920" height="1438" loading="lazy" decoding="async"></div>
       <!-- v3.31 메인 배경 영상 (2026.10 울산항 6·7·8부두 드론 촬영, 23초 반복). 동작 줄이기·데이터 절약 설정 시 재생 안 함 -->
       <video class="hero-video" muted loop playsinline preload="none" poster="assets/video/hero-poster.jpg" width="1920" height="1080">
-        <source src="assets/video/hero-720.mp4" type="video/mp4" media="(max-width: 900px)">
+        <source src="assets/video/hero-m.mp4" type="video/mp4" media="(max-width: 600px)">
         <source src="assets/video/hero-1080.mp4" type="video/mp4">
       </video>
     </div>
@@ -2841,6 +2844,7 @@ body.en .ko-only{display:none!important}
 /* v3.31 영상 */
 .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;opacity:0;transition:opacity 1.2s var(--ease-std);pointer-events:none}
 .hero.has-video .hero-video{opacity:1}
+.hero-video{filter:brightness(1.12) contrast(1.05) saturate(1.08)}
 .hero.has-video .hero-dots button[data-slide]{display:none}
 .svc-media{margin:26px 0 0;max-width:720px}
 .svc-media video,.svc-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:var(--bg-3)}
