@@ -1,9 +1,18 @@
-# 세방울산부두운영 홈페이지 v3.36 (www.supt.co.kr, 전체 패키지)
+# 세방울산부두운영 홈페이지 v3.37 (www.supt.co.kr, 전체 패키지)
 
 기준: 2026-09-27 시안(claude.ai 아티팩트 v63)과 동일한 내용입니다. 사진·로고·폰트(assets)까지 모두 들어 있어 이 폴더만으로 완성 화면이 나옵니다.
 v3.26부터 검색엔진 수집을 허용합니다(정식 도메인 연결 전제).
 
 
+
+## v3.37 (v3.36 대비) 첫 화면 예전 사진 제거
+
+- 영상이 로딩되는 동안 예전 사진 2장(hero.jpg, terminal.jpg) 슬라이드가 잠깐 보이던 문제 수정
+- 대신 영상 첫 장면과 같은 정지 이미지를 먼저 보여주고, 영상이 재생되면 같은 장면에서 그대로 이어짐(PC hero-poster.jpg, 휴대폰 hero-poster-m.jpg)
+- 사진 전환 표시(막대 2개) 삭제, 영상이 재생되지 않는 환경에서는 정지 버튼 숨김
+- sitemap.xml 수정일 2026-11-01
+- 바뀐 파일: index.html, sitemap.xml, assets/video/hero-poster.jpg, assets/video/hero-poster-m.jpg(새 파일)
+- assets/hero.jpg는 더 이상 쓰지 않음(깃허브에서 삭제해도 됨)
 
 ## v3.36 (v3.35 대비) 언론보도 교체
 

@@ -907,10 +907,10 @@ body.en .ko-only{display:none!important}
 <section class="page" id="p-home">
   <div class="hero" id="hero">
     <div class="hero-slides" aria-hidden="true">
-      <div class="slide is-active"><img src="assets/hero.jpg" alt="" width="1920" height="1438" fetchpriority="high" decoding="async"></div>
-      <div class="slide"><img src="assets/terminal.jpg" alt="" width="1920" height="1438" loading="lazy" decoding="async"></div>
+      <!-- v3.37 영상 첫 장면을 정지 이미지로 먼저 보여주고, 영상이 재생되면 그대로 이어짐(예전 사진 2장 슬라이드 삭제) -->
+      <div class="slide is-active"><picture><source media="(max-width: 600px)" srcset="assets/video/hero-poster-m.jpg"><img src="assets/video/hero-poster.jpg" alt="" width="1920" height="1080" fetchpriority="high" decoding="async"></picture></div>
       <!-- v3.31 메인 배경 영상 (2026.10 울산항 6·7·8부두 드론 촬영, 23초 반복). 동작 줄이기·데이터 절약 설정 시 재생 안 함 -->
-      <video class="hero-video" muted loop playsinline preload="none" poster="assets/video/hero-poster.jpg" width="1920" height="1080">
+      <video class="hero-video" muted loop playsinline preload="none" width="1920" height="1080">
         <source src="assets/video/hero-m.mp4" type="video/mp4" media="(max-width: 600px)">
         <source src="assets/video/hero-1080.mp4" type="video/mp4">
       </video>
@@ -931,8 +931,6 @@ body.en .ko-only{display:none!important}
     <div class="hero-foot">
       <div class="wrap">
         <div class="hero-dots" role="group" aria-label="메인 사진 전환" data-en-aria-label="Hero photos">
-          <button type="button" class="on" data-slide="0" aria-label="사진 1" data-en-aria-label="Photo 1"><i></i></button>
-          <button type="button" data-slide="1" aria-label="사진 2" data-en-aria-label="Photo 2"><i></i></button>
         </div>
         <div class="hero-cue" aria-hidden="true"><span>Scroll</span><i></i></div>
       </div>
@@ -2170,7 +2168,7 @@ body.en .ko-only{display:none!important}
       for(var j=0;j<dots.length;j++) dots[j].setAttribute('aria-pressed',String(j===cur));
     }
     function startHero(){
-      if (heroTimer || reduce || userPaused) return;
+      if (heroTimer || reduce || userPaused || slides.length < 2) return;
       heroTimer = setInterval(function(){
         if (document.hidden || document.getElementById('p-home').hidden) return;
         goSlide(cur + 1);
@@ -2846,6 +2844,9 @@ body.en .ko-only{display:none!important}
 .hero.has-video .hero-video{opacity:1}
 .hero-video{filter:brightness(1.12) contrast(1.05) saturate(1.08)}
 .hero.has-video .hero-dots button[data-slide]{display:none}
+/* v3.37 첫 화면 정지 이미지: 영상과 같은 구도·밝기, 확대 효과 없음. 영상이 없을 때(동작 줄이기·데이터 절약)는 정지 버튼 숨김 */
+.hero-slides .slide img,.hero-slides .slide.is-active img{animation:none;transform:none;object-position:50% 50%;filter:brightness(1.12) contrast(1.05) saturate(1.08)}
+.hero:not(.has-video) .hero-pause{display:none}
 .svc-media{margin:26px 0 0;max-width:720px}
 .svc-media video,.svc-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:var(--bg-3)}
 .svc-media figcaption{margin-top:10px;font-size:0.8125rem;color:var(--ink-4)}
@@ -2859,6 +2860,7 @@ body.en .ko-only{display:none!important}
   var hero = document.getElementById('hero'), hv = hero && hero.querySelector('.hero-video');
   if (hv && !reduce && !save){
     hv.preload = 'auto';
+    hv.addEventListener('loadedmetadata', function once(){ hv.removeEventListener('loadedmetadata', once); try { if (hv.currentTime < 0.7) hv.currentTime = 0.7; } catch(e){} });
     hv.addEventListener('playing', function(){ hero.classList.add('has-video'); var pb = hero.querySelector('.hero-pause'); if (pb){ pb.setAttribute('aria-label', document.body.classList.contains('en') ? 'Pause background video' : '배경 영상 정지'); } });
     var p = hv.play(); if (p && p.catch) p.catch(function(){});
     hero.addEventListener('click', function(e){
