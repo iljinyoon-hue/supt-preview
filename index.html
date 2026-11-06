@@ -1787,7 +1787,7 @@ body.en .ko-only{display:none!important}
      · 연동 시: 서버에서 같은 구조의 JSON을 받아 NOTICES에 넣고 renderNotices()를 호출하면 됩니다.
          예) fetch('/api/notices').then(function(r){ return r.json(); })
                 .then(function(list){ NOTICES = list; renderNotices(); });
-     · 필드: id(고유번호, 주소에 사용) · cat('notice' 공지 | 'safety' 안전 | 'tariff' 요율)
+     · 필드: id(고유번호, 주소에 사용) · no(게시 번호, 목록 표시·정렬 기준, 새 글은 가장 큰 번호 + 1) · cat('notice' 공지 | 'safety' 안전 | 'tariff' 요율)
              date('YYYY-MM-DD', 최신순 정렬 기준 - 같은 날짜는 배열에 적힌 순서) · sample(예시 배지 여부) · title{ko,en}
              body{ko:[HTML 문단 …], en:[…]} · files[{name, href, size}] (첨부파일, 없으면 [])
      ====================================================================== */
@@ -1797,7 +1797,30 @@ body.en .ko-only{display:none!important}
     tariff: { ko: '요율', en: 'Tariff', cls: '' }
   };
   var NOTICES = [
-    { id: 5, cat: 'notice', date: '2026-10-01', sample: false,
+    { id: 6, no: 5, cat: 'safety', date: '2026-11-05', sample: false,
+      title: { ko: '안전기원제 개최 안내', en: 'Safety ceremony held on 5 November' },
+      body: {
+        ko: [
+          '<p>세방울산부두운영(주)가 본격적인 부두 운영에 앞서 전 현장의 무재해 달성과 임직원 모두의 안전을 최우선 가치로 삼겠다는 의지를 담아 안전기원제를 개최하였습니다.</p>',
+          '<h3>행사 개요</h3>',
+          '<ul><li>일시: 2026년 11월 5일(목) 10:00</li><li>장소: 세방울산부두운영(주) 2층 사무실</li><li>참석: 대표이사 및 임직원, 내외빈</li></ul>',
+          '<h3>진행 내용</h3>',
+          '<ol><li>개회 및 안전보건경영방침 낭독</li><li>무재해 기원 제례 및 안전 결의 구호 제창</li><li>음복 및 기념품 전달</li><li>참석 내외빈 오찬</li></ol>',
+          '<p class="nd-gal"><img src="assets/popup/safety-1-full.jpg" alt="안전기원제 현수막 앞에 모인 임직원" width="1200" height="1200" loading="lazy"><img src="assets/popup/safety-2-full.jpg" alt="안전보건경영방침 낭독" width="1200" height="1200" loading="lazy"><img src="assets/popup/safety-3-full.jpg" alt="무재해 기원 제례" width="1200" height="1200" loading="lazy"></p>',
+          '<p>안전을 최우선 가치로, 성공적인 업무 개시와 무재해를 기원합니다.</p>'
+        ],
+        en: [
+          '<p>Ahead of full terminal operations, Sebang Ulsan Port Terminal Co., Ltd. held a safety ceremony to pledge zero accidents across all work sites and to put the safety of every employee first.</p>',
+          '<h3>Overview</h3>',
+          '<ul><li>Date: 5 November 2026 (Thu), 10:00</li><li>Venue: 2F office, Sebang Ulsan Port Terminal</li><li>Attendees: CEO, employees and guests</li></ul>',
+          '<h3>Programme</h3>',
+          '<ol><li>Opening and reading of the safety and health management policy</li><li>Zero-accident ceremony and safety pledge</li><li>Sharing of ceremonial food and presentation of commemorative gifts</li><li>Luncheon with guests</li></ol>',
+          '<p class="nd-gal"><img src="assets/popup/safety-1-full.jpg" alt="Employees gathered in front of the safety banner" width="1200" height="1200" loading="lazy"><img src="assets/popup/safety-2-full.jpg" alt="Reading of the safety and health policy" width="1200" height="1200" loading="lazy"><img src="assets/popup/safety-3-full.jpg" alt="Zero-accident ceremony" width="1200" height="1200" loading="lazy"></p>',
+          '<p>Safety first: we wish for a successful start of operations and zero accidents.</p>'
+        ]
+      },
+      files: [] },
+    { id: 5, no: 1, cat: 'notice', date: '2026-10-01', sample: false,
       title: { ko: '세방울산부두운영(주) 홈페이지 오픈 및 운영 개시 안내', en: 'Website launch and start of terminal operations' },
       body: {
         ko: [
@@ -1814,7 +1837,7 @@ body.en .ko-only{display:none!important}
         ]
       },
       files: [] },
-    { id: 4, cat: 'safety', date: '2026-10-01', sample: false,
+    { id: 4, no: 2, cat: 'safety', date: '2026-10-01', sample: false,
       title: { ko: '항만안전특별법에 따른 부두 출입자 안전교육 이수 안내', en: 'Port safety training required for all terminal entrants (Port Safety Special Act)' },
       body: {
         ko: [
@@ -1835,7 +1858,7 @@ body.en .ko-only{display:none!important}
         ]
       },
       files: [] },
-    { id: 1, cat: 'notice', date: '2026-10-01', sample: false,
+    { id: 1, no: 3, cat: 'notice', date: '2026-10-01', sample: false,
       title: { ko: '부두 차량 출입 절차 및 구비 서류 안내', en: 'Vehicle entry procedure and required documents' },
       body: {
         ko: [
@@ -1856,7 +1879,7 @@ body.en .ko-only{display:none!important}
         ]
       },
       files: [] },
-    { id: 2, cat: 'tariff', date: '2026-10-01', sample: false,
+    { id: 2, no: 4, cat: 'tariff', date: '2026-10-01', sample: false,
       title: { ko: '하역요율표 및 부대요율 안내', en: 'Stevedoring tariff and ancillary charges' },
       body: {
         ko: [
@@ -1905,7 +1928,8 @@ body.en .ko-only{display:none!important}
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function fmtDate(d){ return String(d).replace(/-/g, '.'); }
   function sortedNotices(){
-    return NOTICES.slice().sort(function(a, b){ return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });   /* 같은 날짜는 배열 순서 유지 */
+    /* v3.41 게시 번호(no) 내림차순. 번호는 글마다 고정이며 새 글은 가장 큰 번호 + 1 로 등록 */
+    return NOTICES.slice().sort(function(a, b){ return (b.no || 0) - (a.no || 0); });
   }
   function catOf(n){ return CATS[n.cat] || { ko: n.cat, en: n.cat, cls: '' }; }
   function noticeHref(n){ return '#/notice/' + encodeURIComponent(n.id); }
@@ -1923,7 +1947,7 @@ body.en .ko-only{display:none!important}
     if (rows){
       rows.innerHTML = list.map(function(n, i){
         var c = catOf(n);
-        return '<tr><td class="c num">' + (i + 1) + '</td><td><span class="pill ' + c.cls + '">' + esc(c[l]) + '</span></td><td><a href="' + noticeHref(n) + '">' + exBadge(n, l) + esc(n.title[l]) + '</a></td><td class="num">' + fmtDate(n.date) + '</td></tr>';
+        return '<tr><td class="c num">' + (n.no || (list.length - i)) + '</td><td><span class="pill ' + c.cls + '">' + esc(c[l]) + '</span></td><td><a href="' + noticeHref(n) + '">' + exBadge(n, l) + esc(n.title[l]) + '</a></td><td class="num">' + fmtDate(n.date) + '</td></tr>';
       }).join('');
     }
   }
@@ -2874,6 +2898,99 @@ body.en .ko-only{display:none!important}
   if (!vids.length || reduce || save || !('IntersectionObserver' in window)) return;
   var io = new IntersectionObserver(function(es){ es.forEach(function(en){ var v = en.target; if (en.isIntersecting){ v.preload = 'auto'; var q = v.play(); if (q && q.catch) q.catch(function(){}); } else v.pause(); }); }, { threshold: 0.35 });
   vids.forEach(function(v){ io.observe(v); });
+})();
+</script>
+
+<!-- v3.38 안전기원제 팝업 (게시 기간 2026-11-05 ~ 2026-11-12, 첫 화면에서만, '다시 보지 않음' 선택 시 7일간 숨김) -->
+<style>
+.pop-wrap{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(14,27,34,.55);backdrop-filter:blur(2px)}
+.pop-wrap.show{display:flex}
+.pop{width:min(440px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#fff;border-radius:10px;box-shadow:0 24px 60px rgba(0,0,0,.35);color:var(--ink);font-size:.9375rem;line-height:1.55;animation:popin .35s var(--ease-out)}
+@keyframes popin{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.pop-media{position:relative;aspect-ratio:16/9;background:#1F3743;overflow:hidden}
+.pop-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s}
+.pop-media img.on{opacity:1}
+.pop-media .pd{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px}
+.pop-media .pd i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45)}
+.pop-media .pd i.on{background:#fff}
+.pop-x{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(14,27,34,.55);color:#fff;font-size:1.25rem;line-height:1;display:grid;place-items:center;cursor:pointer;border:0}
+.pop-body{padding:18px 20px 6px}
+.pop-body .eyebrow{margin:0 0 6px}
+.pop-body h3{font-size:1.1875rem;line-height:1.3;margin:0 0 8px;letter-spacing:-.01em}
+.pop-body p{margin:0;color:var(--ink-2);font-size:.875rem}
+.pop-body dl{margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.875rem}
+.pop-body dt{color:var(--ink-4);white-space:nowrap}
+.pop-body dd{margin:0;color:var(--ink-2)}
+.pop-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 20px 14px;border-top:1px solid var(--line);margin-top:12px;font-size:.8125rem}
+.pop-foot label{display:flex;align-items:center;gap:6px;color:var(--ink-3);cursor:pointer}
+.pop-foot input{width:15px;height:15px;accent-color:#01ABAA}
+.pop-foot button{padding:7px 14px;border:1px solid var(--line-2);border-radius:4px;background:#fff;color:var(--ink);cursor:pointer;font-size:.8125rem}
+.pop-foot button:hover{background:var(--bg-2)}
+.pop-foot .pop-more{display:inline-flex;align-items:center;padding:7px 14px;border-radius:4px;background:#1F3743;color:#fff;font-size:.8125rem;text-decoration:none}
+.nd-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:18px 0}
+.nd-gal img{width:100%;height:auto;border-radius:6px;display:block}
+@media (max-width:480px){.pop-body{padding:16px 16px 4px}.pop-foot{padding:10px 16px 12px}}
+</style>
+<div class="pop-wrap" id="popSafety" role="dialog" aria-modal="true" aria-label="안전기원제 안내" data-en-aria-label="Safety ceremony notice" hidden>
+  <div class="pop">
+    <div class="pop-media">
+      <img src="assets/popup/safety-1.jpg" alt="" class="on" width="960" height="540">
+      <img src="assets/popup/safety-2.jpg" alt="" width="960" height="540" loading="lazy">
+      <img src="assets/popup/safety-3.jpg" alt="" width="960" height="540" loading="lazy">
+      <div class="pd" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+      <button type="button" class="pop-x" id="popX" aria-label="닫기" data-en-aria-label="Close">×</button>
+    </div>
+    <div class="pop-body">
+      <span class="eyebrow">2026.11.05</span>
+      <h3 class="ko-only">안전기원제를 개최하였습니다</h3>
+      <h3 class="en-only">Safety Ceremony Held</h3>
+      <p class="ko-only">세방울산부두운영(주)가 본격적인 부두 운영에 앞서 전 현장의 무재해 달성과 임직원 모두의 안전을 최우선 가치로 삼겠다는 의지를 담아 안전기원제를 개최하였습니다.</p>
+      <p class="en-only">Ahead of full terminal operations, Sebang Ulsan Port Terminal held a safety ceremony to pledge zero accidents across all work sites and to put the safety of every employee first.</p>
+      <dl class="ko-only">
+        <dt>일시</dt><dd>2026년 11월 5일(목) 10:00</dd>
+        <dt>장소</dt><dd>세방울산부두운영(주) 2층 사무실</dd>
+        <dt>참석</dt><dd>대표이사 및 임직원, 내외빈</dd>
+        <dt>진행</dt><dd>안전보건경영방침 낭독, 무재해 기원 제례 및 안전 결의 구호 제창, 기념품 전달</dd>
+      </dl>
+      <dl class="en-only">
+        <dt>Date</dt><dd>5 November 2026 (Thu), 10:00</dd>
+        <dt>Venue</dt><dd>2F office, Sebang Ulsan Port Terminal</dd>
+        <dt>Attendees</dt><dd>CEO, employees and guests</dd>
+        <dt>Programme</dt><dd>Reading of the safety and health policy, zero-accident ceremony and safety pledge, presentation of commemorative gifts</dd>
+      </dl>
+    </div>
+    <div class="pop-foot">
+      <label><input type="checkbox" id="popHide"><span data-en="Don't show again">다시 보지 않음</span></label>
+      <span style="display:flex;gap:8px"><a class="pop-more" href="#/notice/6" id="popMore" data-en="Read more">자세히 보기</a><button type="button" id="popClose" data-en="Close">닫기</button></span>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var START = new Date('2026-11-05T00:00:00+09:00'), END = new Date('2026-11-12T23:59:59+09:00'), KEY = 'supt_pop_safety_261105';
+  var now = new Date(); if (now < START || now > END) return;
+  try { var until = +localStorage.getItem(KEY); if (until && Date.now() < until) return; } catch(e){}
+  var w = document.getElementById('popSafety'); if (!w) return;
+  var imgs = w.querySelectorAll('.pop-media img'), dots = w.querySelectorAll('.pd i'), k = 0, t = null, shown = false;
+  function close(){
+    w.classList.remove('show'); w.hidden = true; clearInterval(t);
+    try { if (document.getElementById('popHide').checked) localStorage.setItem(KEY, String(Date.now() + 7*864e5)); } catch(e){}
+    document.removeEventListener('keydown', esc);
+  }
+  function esc(e){ if (e.key === 'Escape') close(); }
+  function open(){
+    if (shown) return; shown = true;
+    w.hidden = false; w.classList.add('show');
+    t = setInterval(function(){ imgs[k].classList.remove('on'); dots[k].classList.remove('on'); k = (k + 1) % imgs.length; imgs[k].classList.add('on'); dots[k].classList.add('on'); }, 3500);
+    document.addEventListener('keydown', esc);
+  }
+  document.getElementById('popX').addEventListener('click', close);
+  document.getElementById('popClose').addEventListener('click', close);
+  document.getElementById('popMore').addEventListener('click', close);
+  w.addEventListener('click', function(e){ if (e.target === w) close(); });
+  function check(){ var home = document.getElementById('p-home'); if (home && !home.hidden) setTimeout(open, 700); }
+  check();
+  if (!shown){ var home = document.getElementById('p-home'); if (home) new MutationObserver(check).observe(home, { attributes: true, attributeFilter: ['hidden'] }); }
 })();
 </script>
 </body></html>
