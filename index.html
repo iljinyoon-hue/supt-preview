@@ -2871,6 +2871,10 @@ body.en .ko-only{display:none!important}
 /* v3.37 첫 화면 정지 이미지: 영상과 같은 구도·밝기, 확대 효과 없음. 영상이 없을 때(동작 줄이기·데이터 절약)는 정지 버튼 숨김 */
 .hero-slides .slide img,.hero-slides .slide.is-active img{animation:none;transform:none;object-position:50% 50%;filter:brightness(1.12) contrast(1.05) saturate(1.08)}
 .hero:not(.has-video) .hero-pause{display:none}
+/* v3.42 음영이 옅어진 뒤 밝은 장면에서 잘 안 보이던 스크롤 안내: 글자 그림자와 선 그림자 추가 */
+.hero-cue{color:#fff;text-shadow:0 1px 8px rgba(10,24,32,.9),0 0 2px rgba(10,24,32,.8)}
+.hero-cue i{background:rgba(255,255,255,.45);box-shadow:0 0 6px rgba(10,24,32,.9)}
+.hero-cue i::after{box-shadow:0 0 4px rgba(10,24,32,.9)}
 .svc-media{margin:26px 0 0;max-width:720px}
 .svc-media video,.svc-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:var(--bg-3)}
 .svc-media figcaption{margin-top:10px;font-size:0.8125rem;color:var(--ink-4)}
@@ -2887,10 +2891,11 @@ body.en .ko-only{display:none!important}
     hv.addEventListener('loadedmetadata', function once(){ hv.removeEventListener('loadedmetadata', once); try { if (hv.currentTime < 0.7) hv.currentTime = 0.7; } catch(e){} });
     hv.addEventListener('playing', function(){ hero.classList.add('has-video'); var pb = hero.querySelector('.hero-pause'); if (pb){ pb.setAttribute('aria-label', document.body.classList.contains('en') ? 'Pause background video' : '배경 영상 정지'); } });
     var p = hv.play(); if (p && p.catch) p.catch(function(){});
+    /* v3.42 수정: 버튼 클릭 시 아이콘이 교체되어 e.target 이 문서에서 떨어져 나가 closest() 가 실패하던 문제. 캡처 단계에서 먼저 받아 처리(이 시점에는 aria-pressed 가 아직 바뀌기 전) */
     hero.addEventListener('click', function(e){
       var pb = e.target.closest && e.target.closest('.hero-pause'); if (!pb) return;
-      if (pb.getAttribute('aria-pressed') === 'true') hv.pause(); else { var q = hv.play(); if (q && q.catch) q.catch(function(){}); }
-    });
+      if (pb.getAttribute('aria-pressed') === 'true'){ var q = hv.play(); if (q && q.catch) q.catch(function(){}); } else hv.pause();
+    }, true);
     document.addEventListener('visibilitychange', function(){ if (document.hidden) hv.pause(); else if (hero.querySelector('.hero-pause[aria-pressed="true"]') === null){ var q = hv.play(); if (q && q.catch) q.catch(function(){}); } });
   }
   /* 본문 영상: 화면에 보일 때만 재생 */
